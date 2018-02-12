@@ -10,7 +10,7 @@ class LogIn extends Component {
             .then(x => x.text()
                 .then(x => {
                     window.alert(x);
-                    if (x === "Login successful") { this.props.changePage("main"); }
+                    if (x === "Log in successful") { this.props.changePage("main"); }
                 }));
     }
     render() {
