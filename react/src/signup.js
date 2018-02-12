@@ -11,7 +11,7 @@ class SignUp extends Component {
             .then(x => x.text()
                 .then(x => {
                     window.alert(x);
-                    if (x === "Signup successful") { this.props.changePage("main"); }
+                    if (x === "Signup successful") { this.props.changePage("log in"); }
                 }));
     }
     render() {

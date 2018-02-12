@@ -24,15 +24,14 @@ app.post('/signup', (req, res) => {
         res.send("Signup successful");
     }
 });
-// HAVEN'T WORKED ON THIS PART YET
+
 app.post('/login', (req, res) => {
     var json = JSON.parse(req.body);
-    var providedPassword = json.password;
-    var actualPassword = passwords[json.username];
-    if (providedPassword == actualPassword) {
-        res.send("success");
-    } else {
-        res.send("failure");
-    }
+
+    if (json.username === "") return res.send("Please enter your username");
+    else if (json.password === "") return res.send("Please enter your password");
+    else if (!passwords[json.username]) { return res.send("An account with this username does not exist"); }
+    else if (passwords[json.username] !== json.password) { return res.send("Incorrect password"); }
+    else if (passwords[json.username] === json.password) { res.send("Log in successful"); }
 });
 app.listen(4000);
