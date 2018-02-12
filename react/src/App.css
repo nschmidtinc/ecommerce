@@ -1,15 +1,26 @@
+body {
+  background-color: grey;
+}
+
 .App {
   text-align: center;
+  width: 1000px;
+  margin: auto;
 }
 
-.userAccountButtons {
-  position: absolute;
-  right: 20px;
+.UserAccountButtons {
+  text-align: right;
+  margin-right: 50px;
 }
 
-.searchBox {
+.SearchBox {
   margin-top: 50px;
   width: 700px;
+}
+
+.List {
+  text-align: left;
+  margin-left: 75px;
 }
 
 button {

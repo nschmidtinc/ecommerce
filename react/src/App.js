@@ -3,6 +3,8 @@ import './App.css';
 import SignUp from './signup.js';
 import LogIn from './login.js';
 import AccountPage from './account.js';
+import UserListing from './userListing.js';
+import OtherListing from './otherListing.js';
 
 class App extends Component {
   constructor() {
@@ -10,6 +12,7 @@ class App extends Component {
     this.state = {
       currentPage: "main",
       userKnown: false,
+      userName: "guest",
       searchResult: []
     };
   }
@@ -28,15 +31,15 @@ class App extends Component {
   clickAccountButton = () => { this.setState({ currentPage: "account" }); }
   clickSignUpButton = () => { this.setState({ currentPage: "sign up" }); }
   clickLogInButton = () => { this.setState({ currentPage: "log in" }); }
-  clickLogOutButton = () => {}
+  clickLogOutButton = () => { this.setState({ userKnown: false, userName: "Guest" }); }
   loggedIn = () => {
-    return (<div className="userAccountButtons">
-      <button onClick={this.clickAccountButton}>Account{/*this.username*/}</button>
-      <button onClick={this.userLogToggle}>Log - out</button>
+    return (<div className="UserAccountButtons">
+      <button onClick={this.clickAccountButton}>Account{" : " + this.state.userName}</button>
+      <button onClick={this.clickLogOutButton}>Log - out</button>
     </div>)
   }
   notLoggedIn = () => {
-    return (<div className="userAccountButtons">
+    return (<div className="UserAccountButtons">
       <button onClick={this.clickLogInButton}>Log - In</button>
       <button onClick={this.clickSignUpButton}>Register</button>
     </div>);
@@ -44,26 +47,27 @@ class App extends Component {
   getMainPage = () => {
     return (<div className="App">
       <h1>Alibuy</h1>
-      {this.props.usrknown ? this.loggedIn() : this.notLoggedIn()}
+      <h1>{"Welcome " + this.state.userName}</h1>
+      {this.state.userKnown ? this.loggedIn() : this.notLoggedIn()}
       <div>
         <button onClick={this.searchResults}>Search!</button>
-        <input className="searchBox" type="search" name="q" ref={r => this.searchInput = r} autoComplete="on" placeholder="What are you looking to buy?"></input>
+        <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} autoComplete="on" placeholder="What are you looking to buy?"></input>
         <button onClick={this.clearSearch}>Clear Search</button>
       </div>
-      <div>{this.state.searchResult.map((x, i) => <li key={i}>{x}</li>)}</div>
+      <div>{this.state.searchResult.map((x, i) => <ol className="List" key={i}>{x}</ol>)}</div>
     </div>);
   }
   render() {
     switch (this.state.currentPage) {
       case "main": return this.getMainPage();
-      case "account": return <AccountPage changePage={this.switchPage} />;
-      case "sign up": return <SignUp changePage={this.switchPage} />;
-      case "log in": return <LogIn changePage={this.switchPage} />;
-      case "log out": return null;
-      default: return null;
+      case "account": return <AccountPage changePage={this.switchPage} userStatus={this.userStatus} userInfo={this.state.userName} />;
+      case "sign up": return <SignUp changePage={this.switchPage} userStatus={this.userStatus} />;
+      case "log in": return <LogIn changePage={this.switchPage} userStatus={this.userStatus} />;
+      default: return this.getMainPage();
     }
   }
-  switchPage = (x) => { this.setState({ currentPage: x }); }
+  switchPage = (newPage) => { this.setState({ currentPage: newPage }); }
+  userStatus = (userLog, username) => { this.setState({ userKnown: userLog, userName: username }); }
 }
 
 export default App;
