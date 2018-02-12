@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+.userAccountButtons {
+  position: absolute;
+  right: 20px;
+}
+
+.searchBox {
+  margin-top: 50px;
+  width: 700px;
+}
+
+button {
+  width: 100px;
+}
