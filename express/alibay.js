@@ -3,10 +3,10 @@ const assert = require('assert');
 let itemsBought = {} // map that keeps track of all the items a user has bought
 
 /*
-Before implementing the login functionality, use this function to generate a new UID every time.
+Before implementing the login functionality, use this function to generate a new UserID every time.
 */
-function genUID() {
-    return Math.floor(Math.random() * 100000000)
+function genUserID() {
+    return Math.floor(Math.random() * 100000000);
 }
 
 function putItemsBought(userID, value) {
@@ -23,14 +23,14 @@ function getItemsBought(userID) {
 
 
 /*
-initializeUserIfNeeded adds the UID to our database unless it's already there
-parameter: [uid] the UID of the user.
+initializeUserIfNeeded adds the UserID to our database unless it's already there
+parameter: [userID] the UserID of the user.
 returns: undefined
 */
-function initializeUserIfNeeded(uid) {
-    var items = getItemsBought[uid];
+function initializeUserIfNeeded(userID) {
+    var items = getItemsBought[userID];
     if(items == undefined) {
-        putItemsBought(uid, []);
+        putItemsBought(userID, []);
     }
 }
 
@@ -49,17 +49,17 @@ This function is incomplete. You need to complete it.
     parameters: 
       [sellerID] The ID of the seller
       [price] The price of the item
-      [blurb] A blurb describing the item
+      [itemDescription] A itemDescription describing the item
     returns: The ID of the new listing
 */
-function createListing(sellerID, price, blurb) {
+function createListing(sellerID, price, itemDescription) {
     
 }
 
 /* 
 getItemDescription returns the description of a listing
     parameter: [listingID] The ID of the listing
-    returns: An object containing the price and blurb properties.
+    returns: An object containing the price and itemDescription properties.
 */
 function getItemDescription(listingID) {
     
@@ -111,7 +111,7 @@ function searchForListings(searchTerm) {
 }
 
 module.exports = {
-    genUID, // This is just a shorthand. It's the same as genUID: genUID. 
+    genUserID, // This is just a shorthand. It's the same as genUserID: genUserID. 
     initializeUserIfNeeded,
     putItemsBought,
     getItemsBought

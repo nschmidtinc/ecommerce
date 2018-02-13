@@ -2,9 +2,9 @@ const alibay = require('./alibay')
 const express = require('express')
 const app = express()
 
-app.get('/itemsBought', (req, res) => {
-    let uid = req.query.uid;
-    res.send(JSON.stringify(alibay.getItemsBought(uid)));
+app.get('/itemBought', (req, res) => {
+    var userID = req.query.userID;
+    res.send(JSON.stringify(alibay.getItemsBought(userID)));
 });
 
-app.listen(3000);
+app.listen(4000);
