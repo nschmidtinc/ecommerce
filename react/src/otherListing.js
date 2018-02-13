@@ -12,9 +12,9 @@ class OtherListing extends Component {
     // componentDidMount = () => {
     //     fetch("/listAllItems").then(x => x.json(x)).then(x => { this.setState({ listing: x }) });
     // }
-    items = () => {
-        fetch("/listAllItems").then(x => x.json(x)).then(x => { console.log(x); this.setState({ listing: x }) });
-    }
+    // items = () => {
+    //     fetch("/listAllItems").then(x => x.json(x)).then(x => { console.log(x); this.setState({ listing: x }) });
+    // }
     /*itemDesc = (x) => {
         return (<div>
             <div>
@@ -29,9 +29,9 @@ class OtherListing extends Component {
         </div>);
     }*/
     render() {
-        this.items();
+        //this.items();
         return (<ul className="App">
-            {this.state.listing.map((x, i) => <li className="List" key={i}>{x}</li>)}
+            {/*this.state.listing.map((x, i) => <li className="List" key={i}>{x}</li>)*/}
         </ul>);
     }
 }

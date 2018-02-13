@@ -46,7 +46,13 @@ app.get('/itemBought', (req, res) => {
 app.get('/listAllItems', (req, res) => {
     res.send(JSON.stringify(items));
 });
-
+app.post('/newListing', (req, res) => {
+    let payload = JSON.parse(req.body.toString());
+    let sellerID = payload.userID;
+    let price = payload.price;
+    let description = payload.description;
+    createListing(sellerID, price, description);
+});
 app.listen(4000);
 
 // {

@@ -27,6 +27,29 @@ body {
   font: bold;
 }
 
+.ListNewItem {
+  text-align: left;
+  margin-top: 50px;
+  margin-left: 100px;
+}
+
+.InputDescription {
+  width: 250px;
+}
+
+.AccountButton {
+  width: 200px;
+}
+
+.AccountButtons {
+  margin: 20px;
+}
+
+.ListItemButton {
+  margin-top: 20px;
+  width: 127px;
+}
+
 button {
   width: 100px;
 }

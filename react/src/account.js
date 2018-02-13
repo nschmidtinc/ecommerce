@@ -10,8 +10,9 @@ class AccountPage extends Component {
         return (<div className="App">
             <h1>Account Information</h1>
             <h1>{this.props.userInfo}</h1>
-            <div>
-                <button onClick={() => this.props.changePage("main")} size="25">Back</button>
+            <div className="AccountButtons">
+                <button className="AccountButton" onClick={() => this.props.changePage("list new item")}>List a New Items For Sale</button>
+                <button className="AccountButton" onClick={() => this.props.changePage("main")} size="25">Back</button>
             </div>
             <div className="List">
                 <li>Username : {this.props.userInfo}</li>

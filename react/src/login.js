@@ -16,8 +16,8 @@ class LogIn extends Component {
     render() {
         return (<div className="App">
             <h1>Login</h1>
-            <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50"></input>
-            <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50"></input></div>
+            <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
+            <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>
             <button onClick={this.validation} size="50">Submit</button>
             <button onClick={() => this.props.changePage("main")} size="50">Back</button>
         </div>);

@@ -17,9 +17,9 @@ class SignUp extends Component {
     render() {
         return (<div className="App">
             <h1>Register</h1>
-            <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50"></input>
-            <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50"></input></div>
-            <div><input ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50"></input></div>
+            <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
+            <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>
+            <div><input ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50" /></div>
             <button onClick={this.validation} size="25">Submit</button>
             <button onClick={() => this.props.changePage("main")} size="25">Back</button>
         </div>);
