@@ -129,7 +129,7 @@ Once an item is sold, it will not be returned by allListings
 allListings = () => {
     ally = globalInventory;
     return ally;
-};
+}
 /*
 searchForListings returns the IDs of all the listings currently on the market
 Once an item is sold, it will not be returned by searchForListings
@@ -151,4 +151,4 @@ module.exports = {
     allItemsBought,
     allListings
     // Add all the other functions that need to be exported
-};
+}

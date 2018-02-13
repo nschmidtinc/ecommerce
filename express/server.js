@@ -55,57 +55,19 @@ app.post('/newListing', (req, res) => {
 });
 app.listen(4000);
 
-// {
-//     "User 1": {
-//         "Item 1 ID": {
-//             "Item Properties": {
-//                 "Price": "10",
-//                 "Description": "User 1, Item 1"
-//             }
-//         },
-//         "Item 2 ID": {
-//             "Item Properties": {
-//                 "Price": "20",
-//                 "Description": "User 1, Item 2"
-//             }
-//         },
-//         "Item 3 ID": {
-//             "Item Properties": {
-//                 "Price": "30",
-//                 "Description": "User 1, Item 3"
-//             }
-//         }
-//     },
-//     "User 2": {
-//         "Item 1 ID": {
-//             "Item Properties": {
-//                 "Price": "40",
-//                 "Description": "User 2, Item 1"
-//             }
-//         },
-//         "Item 2 ID": {
-//             "Item Properties": {
-//                 "Price": "50",
-//                 "Description": "User 2, Item 2"
-//             }
-//         },
-//         "Item 3 ID": {
-//             "Item Properties": {
-//                 "Price": "60",
-//                 "Description": "User 2, Item 3"
-//             }
-//         },
-//         "Item 4 ID": {
-//             "Item Properties": {
-//                 "Price": "70",
-//                 "Description": "User 2, Item 4"
-//             }
-//         },
-//         "Item 5 ID": {
-//             "Item Properties": {
-//                 "Price": "80",
-//                 "Description": "User 2, Item 5"
-//             }
-//         }
-//     }
-// }
+app.get('/itemBought', (req, res) => {
+    var userID = req.query.userID;
+    res.send(JSON.stringify(alibay.getItemsBought(userID)));
+});
+
+app.get('/listAllItems', (req, res) => {
+    res.send(JSON.stringify(items));
+});
+app.post('/newListing', (req, res) => {
+    let payload = JSON.parse(req.body.toString());
+    let sellerID = payload.userID;
+    let price = payload.price;
+    let description = payload.description;
+    createListing(sellerID, price, description);
+});
+app.listen(4000);
