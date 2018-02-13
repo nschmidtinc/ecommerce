@@ -44,7 +44,6 @@ allItemsBought returns the IDs of all the items bought by a buyer
     returns: an array of listing IDs
 */
 function allItemsBought(buyerID) {
-    console.log("here I am", buyerID);
     return itemsBought[buyerID];
 }
 /* 
@@ -71,7 +70,6 @@ function createListing(sellerID, price, description) {
     sellerSold.push(listingObj);
     itemsSold[sellerID] = sellerSold;
     listingID = globalInventory[listingID];
-    console.log("yooohooo", listingID);
     return listingID;
 }
 /* 
@@ -83,15 +81,12 @@ function getItemDescription(listingID) {
     if (listingID === undefined) {
         let listingID = {};
         listingID["price"] = 27;
-        console.log("this is the sold array", sellerSold);
         return listingID.price;
     }
-    console.log("whats wrong", listingID.price);
     let itemDescription = {
         price: listingID.price,
         description: listingID.description
     };
-    console.log("booboo", itemDescription);
     return itemDescription;
 }
 /* 
@@ -117,7 +112,6 @@ function buy(buyerID, sellerID, listingID) {
     buyerBought = itemsBought[buyerID];
     return buyerBought;
 }
-console.log("!!!!!!!!!!!!!!!!!!!!!!", globalInventory, itemsSold)
 /* 
 allItemsSold returns the IDs of all the items sold by a seller
     parameter: [sellerID] The ID of the seller

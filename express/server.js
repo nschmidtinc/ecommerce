@@ -11,7 +11,7 @@ var items = {};
 try {
     passwords = JSON.parse(fs.readFileSync("users.json"));
     items = JSON.parse(fs.readFileSync("test.json"));
-} catch (err) { console.log("No list exists"); }
+} catch (err) { console.log("No list exist"); }
 
 app.post('/signup', (req, res) => {
     console.log("in the server");
