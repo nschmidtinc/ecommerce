@@ -3,7 +3,7 @@ import './App.css';
 import SignUp from './signup.js';
 import LogIn from './login.js';
 import AccountPage from './account.js';
-import UserListing from './userListing.js';
+//import UserListing from './userListing.js';
 import OtherListing from './otherListing.js';
 
 class App extends Component {
@@ -13,18 +13,18 @@ class App extends Component {
       currentPage: "main",
       userKnown: false,
       userName: "guest",
-      searchResult: []
+      searchResult: ""
     };
   }
   searchResults = () => {
     if (this.searchInput.value === "") return;
     var input = this.searchInput.value;
     this.searchInput.value = null;
-    this.setState({ searchResult: this.state.searchResult.concat(input) });
+    this.setState({ searchResult: input });
   }
   clearSearch = () => {
     this.searchInput.value = null
-    this.setState({ searchResult: [] });
+    this.setState({ searchResult: "" });
   }
 
   // HEADER BUTTON FUNCTIONS
@@ -54,7 +54,7 @@ class App extends Component {
         <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} autoComplete="on" placeholder="What are you looking to buy?"></input>
         <button onClick={this.clearSearch}>Clear Search</button>
       </div>
-      <div>{this.state.searchResult.map((x, i) => <ol className="List" key={i}>{x}</ol>)}</div>
+      <div>{<OtherListing />}</div>
     </div>);
   }
   render() {

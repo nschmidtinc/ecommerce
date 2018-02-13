@@ -23,6 +23,10 @@ body {
   margin-left: 75px;
 }
 
+.Tag {
+  font: bold;
+}
+
 button {
   width: 100px;
 }

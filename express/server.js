@@ -4,10 +4,16 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.raw({ type: "*/*" }));
 var fs = require('fs');
 var passwords = {};
+var items = {};
 
 try {
     passwords = JSON.parse(fs.readFileSync("users.json"));
+    items = JSON.parse(fs.readFileSync("test.json"));
 } catch (err) { console.log("No list exists"); }
+
+app.get('/listAllItems', (req, res) => {
+    res.send(JSON.stringify(items));
+});
 
 app.post('/signup', (req, res) => {
     console.log("in the server");
@@ -24,7 +30,6 @@ app.post('/signup', (req, res) => {
         res.send("Signup successful");
     }
 });
-
 app.post('/login', (req, res) => {
     var json = JSON.parse(req.body);
 
@@ -35,3 +40,58 @@ app.post('/login', (req, res) => {
     else if (passwords[json.username] === json.password) { res.send("Log in successful"); }
 });
 app.listen(4000);
+
+// {
+//     "User 1": {
+//         "Item 1 ID": {
+//             "Item Properties": {
+//                 "Price": "10",
+//                 "Description": "User 1, Item 1"
+//             }
+//         },
+//         "Item 2 ID": {
+//             "Item Properties": {
+//                 "Price": "20",
+//                 "Description": "User 1, Item 2"
+//             }
+//         },
+//         "Item 3 ID": {
+//             "Item Properties": {
+//                 "Price": "30",
+//                 "Description": "User 1, Item 3"
+//             }
+//         }
+//     },
+//     "User 2": {
+//         "Item 1 ID": {
+//             "Item Properties": {
+//                 "Price": "40",
+//                 "Description": "User 2, Item 1"
+//             }
+//         },
+//         "Item 2 ID": {
+//             "Item Properties": {
+//                 "Price": "50",
+//                 "Description": "User 2, Item 2"
+//             }
+//         },
+//         "Item 3 ID": {
+//             "Item Properties": {
+//                 "Price": "60",
+//                 "Description": "User 2, Item 3"
+//             }
+//         },
+//         "Item 4 ID": {
+//             "Item Properties": {
+//                 "Price": "70",
+//                 "Description": "User 2, Item 4"
+//             }
+//         },
+//         "Item 5 ID": {
+//             "Item Properties": {
+//                 "Price": "80",
+//                 "Description": "User 2, Item 5"
+//             }
+//         }
+//     }
+// }
