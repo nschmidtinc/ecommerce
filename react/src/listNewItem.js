@@ -23,10 +23,10 @@ class ListNewItem extends Component {
         return (<div className="App">
             <h1>Put Up a New Item For Sale</h1>
             <div className="ListNewItem">
-                <p>Username : {this.props.userInfo}</p>
-                {/*<p>Name : <input type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></p>*/}
-                <p>Price : <input type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" />.00$</p>
-                <p>Description : </p>
+                <p><strong><ins>Username</ins> : </strong>{this.props.userInfo}</p>
+                {/*<p><strong><ins>Name</ins> : </strong><input type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></p>*/}
+                <p><strong><ins>Price</ins> : </strong><input type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" />.00$</p>
+                <p><strong><ins>Description</ins> : </strong></p>
                 <input className="InputDescription" type="text" ref={r => this.inputDesc = r} placeholder="Description" required="true" />
                 <div>
                     <button className="ListItemButton" onClick={this.validation}>Display It For Sale</button>

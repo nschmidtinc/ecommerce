@@ -13,8 +13,7 @@ class App extends Component {
       currentPage: "main",
       userKnown: false,
       userName: "guest",
-      globalListings: [],
-      //userListings: [],
+      userListings: {},
       searchResult: ""
     };
   }
@@ -65,19 +64,21 @@ class App extends Component {
       case "account": return <AccountPage changePage={this.switchPage} userStatus={this.userStatus} userInfo={this.state.userName} />;
       case "sign up": return <SignUp changePage={this.switchPage} userStatus={this.userStatus} />;
       case "log in": return <LogIn changePage={this.switchPage} userStatus={this.userStatus} />;
-      case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.userName} addListing={this.addItem} />
+      case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.userName} addListing={this.addItem} />;
       default: return this.getMainPage();
     }
   }
   switchPage = (newPage) => { this.setState({ currentPage: newPage }); }
   userStatus = (userLog, username) => { this.setState({ userKnown: userLog, userName: username }); }
-  addItem = (username, itemName, itemPrice, itemDesc) => {
-    var listing = {};
-    listing["username"] = username;
-    listing["item name"] = itemName;
-    listing["price"] = itemPrice;
-    listing["description"] = itemDesc;
-    this.setState({ globalListings: listing[itemID] });
+  addItem = (username, itemPrice, itemDesc) => {
+    var listing = {
+      "username": username,
+      "price": itemPrice,
+      "description": itemDesc
+    };
+    var userList = {};
+    userList[Math.floor(Math.random() * 100000000)] = listing;
+    this.setState({ userListings: userList });
   }
 }
 

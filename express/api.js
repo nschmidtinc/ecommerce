@@ -50,6 +50,7 @@ app.post('/newListing', (req, res) => {
     fs.writeFileSync("userListing.json", JSON.stringify(userListing));
     res.send("New listing successful");
 });
+
 app.listen(4000);
 
 // let list = {};
