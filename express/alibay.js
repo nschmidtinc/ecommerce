@@ -1,6 +1,6 @@
 const assert = require('assert');
 
-let itemsBought = {} // map that keeps track of all the items a user has bought
+var itemsBought = {} // map that keeps track of all the items a user has bought
 
 /*
 Before implementing the login functionality, use this function to generate a new UserID every time.

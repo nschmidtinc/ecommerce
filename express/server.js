@@ -1,8 +1,10 @@
+var alibay = require('./alibay');
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.raw({ type: "*/*" }));
 var fs = require('fs');
+
 var passwords = {};
 var items = {};
 
@@ -10,10 +12,6 @@ try {
     passwords = JSON.parse(fs.readFileSync("users.json"));
     items = JSON.parse(fs.readFileSync("test.json"));
 } catch (err) { console.log("No list exists"); }
-
-app.get('/listAllItems', (req, res) => {
-    res.send(JSON.stringify(items));
-});
 
 app.post('/signup', (req, res) => {
     console.log("in the server");
@@ -39,6 +37,16 @@ app.post('/login', (req, res) => {
     else if (passwords[json.username] !== json.password) { return res.send("Incorrect password"); }
     else if (passwords[json.username] === json.password) { res.send("Log in successful"); }
 });
+
+app.get('/itemBought', (req, res) => {
+    var userID = req.query.userID;
+    res.send(JSON.stringify(alibay.getItemsBought(userID)));
+});
+
+app.get('/listAllItems', (req, res) => {
+    res.send(JSON.stringify(items));
+});
+
 app.listen(4000);
 
 // {
