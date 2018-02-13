@@ -8,11 +8,11 @@ class SignUp extends Component {
         var passConf = this.inputPassConfirm.value;
         this.inputUser.value = null; this.inputPass.value = null; this.inputPassConfirm.value = null;
         fetch("/signup", { method: "POST", body: JSON.stringify({ username: user, password: pass, passwordConfirm: passConf }) })
-            .then(x => x.text()
+            .then(x => x.text())
                 .then(x => {
                     window.alert(x);
                     if (x === "Signup successful") { this.props.changePage("main"); this.props.userStatus(true, user); }
-                }));
+                });
     }
     render() {
         return (<div className="App">

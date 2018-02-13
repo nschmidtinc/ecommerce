@@ -1,6 +1,6 @@
 const assert = require("assert");
 let itemsBought = {}; // map that keeps track of all the items a user has bought
-let itemsSold = {};
+let itemsForSale = {};
 let globalInventory = {};
 function loadListings() {
     try {
@@ -63,12 +63,12 @@ function createListing(sellerID, price, description) {
     listingObj.price = price;
     listingObj.description = description;
     globalInventory[listingID] = listingObj;
-    sellerSold = itemsSold[sellerID];
+    sellerSold = itemsForSale[sellerID];
     if (!sellerSold) {
         sellerSold = [];
     }
     sellerSold.push(listingObj);
-    itemsSold[sellerID] = sellerSold;
+    itemsForSale[sellerID] = sellerSold;
     listingID = globalInventory[listingID];
     return listingID;
 }

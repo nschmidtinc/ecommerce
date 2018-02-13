@@ -7,11 +7,11 @@ class LogIn extends Component {
         var pass = this.inputPass.value;
         this.inputUser.value = null; this.inputPass.value = null;
         fetch("/login", { method: "POST", body: JSON.stringify({ username: user, password: pass }) })
-            .then(x => x.text()
+            .then(x => x.text())
                 .then(x => {
                     window.alert(x);
                     if (x === "Log in successful") { this.props.changePage("main"); this.props.userStatus(true, user); }
-                }));
+                });
     }
     render() {
         return (<div className="App">
