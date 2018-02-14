@@ -5,6 +5,8 @@ import LogIn from './login.js';
 import AccountPage from './account.js';
 import ListNewItem from './listNewItem.js';
 import OtherListing from './otherListing.js';
+import YourItems from './yourListings.js';
+import SpecialPage from './special page.js';
 
 class App extends Component {
   constructor() {
@@ -12,9 +14,10 @@ class App extends Component {
     this.state = {
       currentPage: "main",
       userKnown: false,
-      userName: "guest",
-      userListings: {},
-      searchResult: ""
+      userName: "Guest",
+      userListings: { foo: 5 },
+      searchResult: "",
+      displayResult: ["1", "2", "3", "4"]
     };
   }
   searchResults = () => {
@@ -23,16 +26,22 @@ class App extends Component {
     this.searchInput.value = null;
     this.setState({ searchResult: input });
   }
+  displayResults = () => {
+    if (this.searchInput.value === "") return;
+    var input = this.searchInput.value;
+    this.searchInput.value = null;
+    this.setState({ displayResult: this.state.searchResult.concat(input) });
+  }
   clearSearch = () => {
     this.searchInput.value = null
-    this.setState({ searchResult: "" });
+    this.setState({ searchResult: "", displayResult: ["1", "2", "3", "4"] });
   }
-
   // HEADER BUTTON FUNCTIONS
-  clickAccountButton = () => { this.setState({ currentPage: "account" }); }
-  clickSignUpButton = () => { this.setState({ currentPage: "sign up" }); }
-  clickLogInButton = () => { this.setState({ currentPage: "log in" }); }
-  clickLogOutButton = () => { this.setState({ userKnown: false, userName: "Guest" }); }
+  clickAccountButton = () => { return this.setState({ currentPage: "account" }); }
+  clickSignUpButton = () => { return this.setState({ currentPage: "sign up" }); }
+  clickLogInButton = () => { return this.setState({ currentPage: "log in" }); }
+  clickLogOutButton = () => { return this.setState({ userKnown: false, userName: "Guest" }); }
+  clickSpecialButton = () => { return this.setState({ currentPage: "special page" }); }
   loggedIn = () => {
     return (<div className="UserAccountButtons">
       <button onClick={this.clickAccountButton}>Account{" : " + this.state.userName}</button>
@@ -47,15 +56,15 @@ class App extends Component {
   }
   getMainPage = () => {
     return (<div className="App">
-      <h1>Alibuy</h1>
-      <h1>{"Welcome " + this.state.userName}</h1>
+      <h1>{"Hello " + this.state.userName + "! Welcome to Alibuy"}</h1>
       {this.state.userKnown ? this.loggedIn() : this.notLoggedIn()}
       <div>
         <button onClick={this.searchResults}>Search!</button>
         <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} autoComplete="on" placeholder="What are you looking to buy?" />
         <button onClick={this.clearSearch}>Clear Search</button>
       </div>
-      <div>{<OtherListing />}</div>
+      <div>{this.state.displayResult.map((x, i) => <div key={i} className="ItemDiv">{<OtherListing userInfo={this.state.userName} />}</div>)}</div>
+      <button onClick={this.clickSpecialButton}>Special Button</button>
     </div>);
   }
   render() {
@@ -65,6 +74,7 @@ class App extends Component {
       case "sign up": return <SignUp changePage={this.switchPage} userStatus={this.userStatus} />;
       case "log in": return <LogIn changePage={this.switchPage} userStatus={this.userStatus} />;
       case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.userName} addListing={this.addItem} />;
+      case "special page": return <SpecialPage />
       default: return this.getMainPage();
     }
   }

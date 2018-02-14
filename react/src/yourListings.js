@@ -33,21 +33,21 @@ var list = {
     }
 }
 
-class ListedItem extends Component {
+class YourItems extends Component {
     componentDidMount = () => {
-        fetch('/listthing', { method: "POST", body: JSON.stringify({ user: this.props.username }) }).then(x => x.text());
+        fetch('/listthing', { method: "POST", body: JSON.stringify({ user: this.props.userInfo }) }).then(x => x.text());
     }
     render() {
-        return (<div className="App">
-            <p><strong><ins>Username</ins> : </strong>{this.props.userInfo}</p>
-            <p><strong><ins>Price</ins> : </strong>{this.props.itemPrice}.00$</p>
-            <p><strong><ins>Description</ins> : </strong><ins>{this.props.itemDesc}</ins></p>
-            <div>
-                <button className="ListItemButton" onClick={this.validation}>Display It For Sale</button>
-                <button className="ListItemButton" onClick={() => this.props.changePage("account")} size="50">Back</button>
+        return (<div className="ItemDisplay">
+            <div className="SubItemDisplay"><img src="https://i.imgur.com/kjgSsc0.gif" alt="Run Coward" height="200" width="200"/></div>
+            <div className="SubItemDisplay">
+                <p><strong><ins>Username</ins> : </strong>{this.props.username}</p>
+                <p><strong><ins>Price</ins> : </strong>10000000000000000000000.00$</p>
+                <p><strong><ins>Description</ins> : </strong><ins>IT WILL DESTROY US ALL! RUN!!!</ins></p>
+                <button>Details</button><button>Remove It</button>
             </div>
         </div>);
     }
 }
 
-export default ListedItem;
+export default YourItems;

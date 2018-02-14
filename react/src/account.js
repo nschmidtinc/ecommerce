@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import YourItems from './yourListings.js';
 
 class AccountPage extends Component {
     constructor() {
@@ -8,22 +9,22 @@ class AccountPage extends Component {
     }
     render() {
         return (<div className="App">
-            <h1>Account Information</h1>
-            <h1>{this.props.userInfo}</h1>
+            <h1>{this.props.userInfo}'s Account Information</h1>
             <div className="AccountButtons">
                 <button className="AccountButton" onClick={() => this.props.changePage("list new item")}>List a New Item For Sale</button>
                 <button className="AccountButton" onClick={() => this.props.changePage("main")} size="25">Back</button>
             </div>
+            <h4>Your Listed Items</h4>
             <div>
-                <div className="List">
-                    <li>Username : {this.props.userInfo}</li>
-                    <li>---------------------------</li>
-                    <li>Number of Items Listed : 5</li>
-                    <li>Number of Items Sold : 10</li>
-                    <li>Number of Items Bought : 9</li>
+                <div className="AccountInfo">
+                    <ul>Username : {this.props.userInfo}</ul>
+                    <ul>---------------------------</ul>
+                    <ul>Number of Items Listed : 5</ul>
+                    <ul>Number of Items Sold : 10</ul>
+                    <ul>Number of Items Bought : 9</ul>
                 </div>
-                <div className="">
-                    <h4><ins>Your Listed Items</ins></h4>
+                <div className="AccountList">
+                    <YourItems username={this.props.userInfo}/>
                 </div>
             </div>
         </div>);

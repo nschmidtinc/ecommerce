@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-var counter = 0;
+
 class ListNewItem extends Component {
     constructor() {
         super();

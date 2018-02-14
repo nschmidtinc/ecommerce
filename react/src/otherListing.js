@@ -2,37 +2,19 @@ import React, { Component } from 'react';
 import './App.css';
 
 class OtherListing extends Component {
-    constructor() {
-        super();
-        this.state = {
-            allListings: [],
-            listing: [""]
-        }
-    }
-    // componentDidMount = () => {
-    //     fetch("/listAllItems").then(x => x.json(x)).then(x => { this.setState({ listing: x }) });
-    // }
-    // items = () => {
-    //     fetch("/listAllItems").then(x => x.json(x)).then(x => { console.log(x); this.setState({ listing: x }) });
-    // }
-    /*itemDesc = (x) => {
-        return (<div>
-            <div>
-                <p className="Tag">Username : </p><p>{}</p>
-            </div>
-            <div>
-                <p className="Tag">Price : </p><p>{}</p>
-            </div>
-            <div>
-                <p className="Tag">Description : </p><p>{}</p>
-            </div>
-        </div>);
-    }*/
     render() {
-        //this.items();
-        return (<ul className="App">
-            {/*this.state.listing.map((x, i) => <li className="List" key={i}>{x}</li>)*/}
-        </ul>);
+        return (<div className="ItemDisplay">
+            <div className="SubItemDisplay"><img src="https://i.imgur.com/kjgSsc0.gif" alt="Run Coward" height="75" width="75" /></div>
+            <div><small>
+                <p><strong><ins>Seller</ins> : </strong>SINISTAR</p>
+                <p><strong><ins>Item</ins> : </strong>{this.props.userInfo}</p>
+                <p><strong><ins>Price</ins> : </strong>1000000000000.00$</p>
+            </small></div>
+            <div><small>
+                <p><strong><ins>Description</ins> : </strong>IT WILL DESTROY US ALL! RUN!!!hdbddddddd ddddddddddddddddddddddddddddddh hdbhdbd dhbdhbd hdbhdbd hdbhdbdh hbdhdb</p></small>
+            </div>
+            <button>BUY NOW!</button>
+        </div>);
     }
 }
 

@@ -1,7 +1,14 @@
 body {
   background-color: grey;
 }
+.SpecialTime{ 
+  transform-origin:50% 50%;
+  animation:2s rotateRight infinite linear; 
+}
 
+@keyframes rotateRight{
+  100%{ transform:rotate(360deg); }
+}
 .App {
   text-align: center;
   width: 1000px;
@@ -18,13 +25,44 @@ body {
   width: 700px;
 }
 
-.List {
+.AccountInfo {
   text-align: left;
-  margin-left: 75px;
+  width: 300px;
+  float: left;
 }
 
-.Tag {
-  font: bold;
+.AccountList {
+  margin-left: 250px;
+  text-align: left;
+  width: 600px;
+  height: 200px;
+  padding: 15px;
+}
+
+.ItemDisplay {
+  border: 5px solid black;
+  background-color: white;
+  margin: auto;
+  text-align: left;
+  width: 350px;
+  height: 200px;
+  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.SubItemDisplay {
+  margin-top: 10px;
+  margin-right: 20px;
+  float: left;
+}
+
+.ItemDiv {
+  margin-top: 20px;
+  width: 50%;
+  float: left;
 }
 
 .ListNewItem {
@@ -48,6 +86,11 @@ body {
 .ListItemButton {
   margin-top: 20px;
   width: 127px;
+}
+
+p {
+  padding: 0px;
+  margin: 0 px;
 }
 
 button {
