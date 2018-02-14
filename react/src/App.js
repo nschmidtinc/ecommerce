@@ -4,8 +4,7 @@ import SignUp from './signup.js';
 import LogIn from './login.js';
 import AccountPage from './account.js';
 import ListNewItem from './listNewItem.js';
-import OtherListing from './otherListing.js';
-import YourItems from './yourListings.js';
+import GlobalListings from './globalListing.js';
 import SpecialPage from './special page.js';
 
 class App extends Component {
@@ -17,7 +16,7 @@ class App extends Component {
       userName: "Guest",
       userListings: { foo: 5 },
       searchResult: "",
-      displayResult: ["1", "2", "3", "4"]
+      displayResult: ["", "", "", "", "", ""]
     };
   }
   searchResults = () => {
@@ -34,9 +33,8 @@ class App extends Component {
   }
   clearSearch = () => {
     this.searchInput.value = null
-    this.setState({ searchResult: "", displayResult: ["1", "2", "3", "4"] });
+    this.setState({ searchResult: "", displayResult: ["1", "2", "3", "4", "5", "6"] });
   }
-  // HEADER BUTTON FUNCTIONS
   clickAccountButton = () => { return this.setState({ currentPage: "account" }); }
   clickSignUpButton = () => { return this.setState({ currentPage: "sign up" }); }
   clickLogInButton = () => { return this.setState({ currentPage: "log in" }); }
@@ -44,7 +42,7 @@ class App extends Component {
   clickSpecialButton = () => { return this.setState({ currentPage: "special page" }); }
   loggedIn = () => {
     return (<div className="UserAccountButtons">
-      <button onClick={this.clickAccountButton}>Account{" : " + this.state.userName}</button>
+      <button onClick={this.clickAccountButton}>{this.state.userName}</button>
       <button onClick={this.clickLogOutButton}>Log - out</button>
     </div>)
   }
@@ -55,16 +53,17 @@ class App extends Component {
     </div>);
   }
   getMainPage = () => {
-    return (<div className="App">
-      <h1>{"Hello " + this.state.userName + "! Welcome to Alibuy"}</h1>
+    return (<div>
       {this.state.userKnown ? this.loggedIn() : this.notLoggedIn()}
-      <div>
-        <button onClick={this.searchResults}>Search!</button>
-        <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} autoComplete="on" placeholder="What are you looking to buy?" />
-        <button onClick={this.clearSearch}>Clear Search</button>
+      <div className="App">
+        <div>
+          <button onClick={this.searchResults}>Search!</button>
+          <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} autoComplete="on" placeholder={"Hello " + this.state.userName + ", what are you looking to buy?"} />
+          <button onClick={this.clearSearch}>Clear Search</button>
+        </div>
+        <div>{this.state.displayResult.map((x, i) => <div key={i} className="ItemDiv">{<GlobalListings /*info={this.state.displayResult[x]}*/ />}</div>)}</div>
+        <button onClick={this.clickSpecialButton}></button>
       </div>
-      <div>{this.state.displayResult.map((x, i) => <div key={i} className="ItemDiv">{<OtherListing userInfo={this.state.userName} />}</div>)}</div>
-      <button onClick={this.clickSpecialButton}>Special Button</button>
     </div>);
   }
   render() {

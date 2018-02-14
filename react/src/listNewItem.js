@@ -20,7 +20,7 @@ class ListNewItem extends Component {
             });
     }
     render() {
-        return (<div className="App">
+        return (<div className="AppMain">
             <h1>Put Up a New Item For Sale</h1>
             <div className="ListNewItem">
                 <p><strong><ins>Username</ins> : </strong>{this.props.userInfo}</p>

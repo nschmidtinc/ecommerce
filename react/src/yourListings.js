@@ -2,49 +2,44 @@ import React, { Component } from 'react';
 import './App.css';
 
 var list = {
-    "name1": {
-        "item1": {
-            "element1": "1",
-            "element2": "2"
-        },
-        "item2": {
-            "element3": "3",
-            "element4": "4",
-            "element5": "5"
-        }
+    1: {
+        "price": "100",
+        "description": "DO"
     },
-    "name2": {
-        "item1": {
-            "element1": "1",
-            "element2": "2",
-            "element3": "3",
-            "element4": "4"
-        },
-        "item2": {
-            "element5": "5",
-            "element6": "6",
-            "element7": "7"
-        },
-        "item3": {
-            "element8": "8",
-            "element9": "9",
-            "element10": "10"
-        }
+    2: {
+        "price": "200",
+        "description": "YA"
+    },
+    3: {
+        "price": "300",
+        "description": "KNOW"
+    },
+    4: {
+        "price": "400",
+        "description": "DAE"
+    },
+    0: {
+        "price": "500",
+        "description": "WAY"
     }
 }
 
 class YourItems extends Component {
     componentDidMount = () => {
-        fetch('/listthing', { method: "POST", body: JSON.stringify({ user: this.props.userInfo }) }).then(x => x.text());
+        //fetch('/userListings', { method: "POST", body: JSON.stringify({ user: this.props.username }) }).then(x => x.text()).then(x => console.log(x));
     }
     render() {
-        return (<div className="ItemDisplay">
-            <div className="SubItemDisplay"><img src="https://i.imgur.com/kjgSsc0.gif" alt="Run Coward" height="200" width="200"/></div>
-            <div className="SubItemDisplay">
-                <p><strong><ins>Username</ins> : </strong>{this.props.username}</p>
-                <p><strong><ins>Price</ins> : </strong>10000000000000000000000.00$</p>
-                <p><strong><ins>Description</ins> : </strong><ins>IT WILL DESTROY US ALL! RUN!!!</ins></p>
-                <button>Details</button><button>Remove It</button>
+        var x = list[Math.round(Math.random() * 4)]
+        return (<div className="UserItemDisplay">
+            <div className="SubItemDisplay"><img src="metaknight.png" alt="Run Coward" height="100" width="100" /></div>
+            <button>Details</button><button>Remove It</button>
+            <div><small>
+                <p><strong><ins>Seller</ins> : </strong>{this.props.username}</p>
+                <p><strong><ins>Item</ins> : </strong>GIVE ME A FANCY NAME</p>
+                <p><strong><ins>Price</ins> : </strong>{x.price}.00$</p>
+            </small></div>
+            <div><small>
+                <p><strong><ins>Description</ins> : </strong>{x.description}</p></small>
             </div>
         </div>);
     }

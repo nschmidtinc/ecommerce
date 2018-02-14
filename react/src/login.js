@@ -14,7 +14,7 @@ class LogIn extends Component {
                 });
     }
     render() {
-        return (<div className="App">
+        return (<div className="AppMain">
             <h1>Login</h1>
             <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
             <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>
