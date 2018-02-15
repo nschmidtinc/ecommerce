@@ -54,8 +54,6 @@ app.post('/newListing', (req, res) => {
     userListing = alibay.createListing(userID, json.username, json.itemname, json.price, json.description);
     console.log(userListing);
     alibay.saveListings();
-    // var x = alibay.getListing(userListing);
-    fs.writeFileSync("userListing.json", JSON.stringify(alibay.getListing(userListing)));
     res.send(alibay.getListing(userListing));
 });
 app.get('/globalListings', (req, res) => {

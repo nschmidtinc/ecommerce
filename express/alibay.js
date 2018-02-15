@@ -154,7 +154,7 @@ function xsearchForListings(searchTerm) {
         if (globalInventory[item].description.indexOf(searchTerm) !== -1) {
             return globalInventory[item];
         }
-    })
+    });
     console.log(forSaleMap)
     return forSaleMap;
 }

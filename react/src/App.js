@@ -14,18 +14,20 @@ class App extends Component {
       currentPage: "main",
       userKnown: false,
       userName: "Guest",
-      displayResult: []
+      displayResult: [],
+      allListings: [],
+      numberOfListings: []
     };
   }
   componentDidMount = () => {
-    fetch('/globalListings').then(x => x.text()).then(x => console.log(x));
+    fetch('/globalListings').then(x => x.text()).then(x => { this.setState({ allListings: JSON.parse(x) }); });
   }
-  // searchResults = () => {
-  //   if (this.searchInput.value === "") return;
-  //   var input = this.searchInput.value;
-  //   this.searchInput.value = null;
-  //   this.displayResults(input);
-  // }
+  searchResults = () => {
+    if (this.searchInput.value === "") return;
+    var input = this.searchInput.value;
+    this.searchInput.value = null;
+    this.displayResults(input);
+  }
   displayResults = () => {
     if (this.searchInput.value === "") return;
     document.getElementsByClassName("SearchClearButton").disabled = false;
@@ -64,7 +66,9 @@ class App extends Component {
           <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} placeholder={"Hello " + this.state.userName + ", what are you looking to buy?"} />
           <button className="SearchClearButton" type="button" onClick={this.clearSearch} disabled>Clear Search</button>
         </div>
-        <div>{this.state.displayResult.map((x, i) => <div key={i} className="ItemDiv">{<GlobalListings />}</div>)}</div>
+        <div className="">
+          {this.state.allListings.map((x, i) => (<GlobalListings key={i} count={i} obj={this.state.allListings} />))}
+        </div>
         <button onClick={this.clickSpecialButton}></button>
       </div>
     </div>);

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import YourItems from './yourListings.js';
+//import YourItems from './yourListings.js';
 
 class AccountPage extends Component {
     constructor() {
