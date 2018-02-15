@@ -8,7 +8,6 @@ var passwords = {};
 var userIDs = {};
 var userListing = {};
 var globalListings = {};
-
 try {
     passwords = JSON.parse(fs.readFileSync("passwords.json"));
 } catch (err) { console.log("No password list exist"); }
@@ -21,7 +20,6 @@ try {
 try {
     globalListing = JSON.parse(fs.readFileSync("globalListing.json"));
 } catch (err) { console.log("No user listings list exist"); }
-
 app.post('/signup', (req, res) => {
     console.log("signup");
     let json = JSON.parse(req.body);
@@ -56,6 +54,12 @@ app.post('/newListing', (req, res) => {
     alibay.saveListings();
     res.send(alibay.getListing(userListing));
 });
+app.post('/search', (req, res) => {
+    let json = JSON.parse(req.body);
+    let searchResults = alibay.searchForListings(json.searchTerm);
+    //let jsonResponse = JSON.stringify(searchQuery);
+    res.send(alibay.mapIDToListing(searchResults));
+});
 app.get('/globalListings', (req, res) => {
     let globalListings = alibay.allListings();
     // let jsonResponse = JSON.stringify(globalListings)
@@ -65,7 +69,7 @@ app.get('/globalListings', (req, res) => {
 });
 app.post('/userListings', (req, res) => {
     let json = JSON.parse(req.body);
-    let userID = userIDs[json.userName];
+    let userID = userIDs[json.username];
     console.log("users items for sale");
     let userListings = alibay.userListings(userID);
     //let jsonResponse = JSON.stringify(userListings);
@@ -73,23 +77,17 @@ app.post('/userListings', (req, res) => {
 });
 app.post('/userSold', (req, res) => {
     let json = JSON.parse(req.body);
-    let userID = userIDs[json.userName];
+    let userID = userIDs[json.username];
     let userSoldListings = alibay.allItemsSold(userID);
     //let jsonResponse = JSON.stringify(userSoldListings);
     res.send(alibay.mapIDToListing(userSoldListings));
 });
 app.post('/userBought', (req, res) => {
     let json = JSON.parse(req.body);
-    let userID = userIDs[json.userName];
+    let userID = userIDs[json.username];
     let userBoughtListings = alibay.allItemsBought(userID);
     //let jsonResponse = JSON.stringify(userSoldListings);
     res.send(alibay.mapIDToListing(userBoughtListings));
-});
-app.post('/search', (req, res) => {
-    let json = JSON.parse(req.body);
-    let searchResults = alibay.searchForListings(json.searchTerm);
-    //let jsonResponse = JSON.stringify(searchQuery);
-    res.send(alibay.mapIDToListing(searchResults));
 });
 app.post('/buy', (req, res) => {
     let json = JSON.parse(req.body);

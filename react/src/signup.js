@@ -15,6 +15,7 @@ class SignUp extends Component {
             });
     }
     render() {
+        console.log("sign-in");
         return (<div className="AppMain">
             <h1>Register</h1>
             <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />

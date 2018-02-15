@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import './App.css';
 
 class GlobalListings extends Component {
+    componentDidMount = () => {
+        //document.getElementsByClassName("PurchaseButton").disabled = true;
+    }
     render() {
         console.log("global");
         try {
             return (<div className="ItemDisplay">
-                <button>BUY NOW!</button>
+                <button className="PurchaseButton" type="button" onClick={() => this.props.changePage("purchase screen")}>BUY NOW!</button>
                 <div>
                     <div className="SubItemDisplay"><img src="kirby.png" alt="Run Coward" height="75" width="75" /></div>
                     <div><small>
@@ -19,7 +22,7 @@ class GlobalListings extends Component {
                     </div>
                 </div>
             </div>);
-        } catch (err) { console.log(err); return null; }
+        } catch (err) { return null; }
     }
 }
 

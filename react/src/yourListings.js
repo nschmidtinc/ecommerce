@@ -1,53 +1,25 @@
 import React, { Component } from 'react';
 import './App.css';
 
-var list = {
-    1: {
-        "name": "Meme 1",
-        "price": "100",
-        "description": "DO"
-    },
-    2: {
-        "name": "Meme 2",
-        "price": "200",
-        "description": "YA"
-    },
-    3: {
-        "name": "Meme 3",
-        "price": "300",
-        "description": "KNOW"
-    },
-    4: {
-        "name": "Meme 4",
-        "price": "400",
-        "description": "DAE"
-    },
-    0: {
-        "name": "Meme 0",
-        "price": "500",
-        "description": "WAY"
-    }
-}
-
-class YourItems extends Component {
-    componentDidMount = () => {
-        //fetch('/userListings', { method: "POST", body: JSON.stringify({ user: this.props.username }) }).then(x => x.text()).then(x => console.log(x));
-    }
+class YourListings extends Component {
     render() {
-        var x = list[Math.round(Math.random() * 4)]
-        return (<div className="UserItemDisplay">
-            <div className="SubItemDisplay"><img src="metaknight.png" alt="Run Coward" height="100" width="100" /></div>
-            <button>Details</button><button>Remove It</button>
-            <div><small>
-                <p><strong><ins>Seller</ins> : </strong>{this.props.username}</p>
-                <p><strong><ins>Item</ins> : </strong>{x.name}</p>
-                <p><strong><ins>Price</ins> : </strong>{x.price}.00$</p>
-            </small></div>
-            <div><small>
-                <p><strong><ins>Description</ins> : </strong>{x.description}</p></small>
-            </div>
-        </div>);
+        console.log("user listing");
+        try {
+            return (<div className="UserItemDisplay">
+                <button>Details</button><button>Remove It</button>
+                <div>
+                    <div className="SubItemDisplay"><img src="metaknight.png" alt="Run Coward" height="100" width="100" /></div>
+                    <div><small>
+                        <p><strong><ins>Item</ins> : </strong>{this.props.obj[this.props.count].itemName}</p>
+                        <p><strong><ins>Price</ins> : </strong>${this.props.obj[this.props.count].price}.00</p>
+                    </small></div>
+                    <div><small>
+                        <p><strong><ins>Description</ins> : </strong>{this.props.obj[this.props.count].description}</p></small>
+                    </div>
+                </div>
+            </div>);
+        } catch (err) { console.log(err); return null; }
     }
 }
 
-export default YourItems;
+export default YourListings;

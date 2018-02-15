@@ -1,7 +1,7 @@
 const assert = require("assert");
-const fs = require('fs');
+const fs = require("fs");
 let itemsBought = {}; // map that keeps track of all the items a user has bought
-let itemsForSale = {}
+let itemsForSale = {};
 let itemsSold = {};
 let globalInventory = {};
 try {
@@ -22,7 +22,9 @@ function putItemsBought(userID, value) {
 }
 function getItemsBought(userID) {
     var ret = itemsBought[userID];
-    if (ret == undefined) { return null; }
+    if (ret == undefined) {
+        return null;
+    }
     return ret;
 }
 /*
@@ -32,7 +34,9 @@ returns: A promise
 */
 function initializeUserIfNeeded(userID) {
     var items = getItemsBought[userID];
-    if (items == undefined) { return putItemsBought(userID, []); }
+    if (items == undefined) {
+        return putItemsBought(userID, []);
+    }
 }
 /*
 allItemsBought returns the IDs of all the items bought by a buyer
@@ -40,7 +44,7 @@ allItemsBought returns the IDs of all the items bought by a buyer
     returns: an array of listing IDs
 */
 function allItemsBought(buyerID) {
-    console.log(buyerID, itemsBought)
+    console.log(buyerID, itemsBought);
     return itemsBought[buyerID].map(element => element.listingID);
 }
 /* 
@@ -74,7 +78,7 @@ getItemDescription returns the itemDescription of a listing
     returns: An object containing the price and description properties.
 */
 function getItemDescription(listingID) {
-    console.log("this is !!!!! our log example", globalInventory[listingID], listingID)
+    console.log("this is !!!!! our log example", globalInventory[listingID], listingID);
     let itemDescription = {
         price: globalInventory[listingID].price,
         description: globalInventory[listingID].description
@@ -116,9 +120,9 @@ allItemsSold returns the IDs of all the items sold by a seller
     parameter: [sellerID] The ID of the seller
     returns: an array of listing IDs
 */
-function userListings(sellerID) {
+function userListings(userID) {
     // console.log("items currently selling", sellerID, itemsSold[sellerID])
-    return globalInventory[sellerID].map(element => element.listingID);
+    return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID);
 }
 function getListing(listingID) {
     return globalInventory[listingID];
@@ -137,7 +141,7 @@ Once an item is sold, it will not be returned by allListings
 */
 allListings = () => {
     return Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
-}
+};
 /*
 searchForListings returns the IDs of all the listings currently on the market
 Once an item is sold, it will not be returned by searchForListings
@@ -147,25 +151,24 @@ Once an item is sold, it will not be returned by searchForListings
 function xsearchForListings(searchTerm) {
     let searchArray = [];
     let elementCount = -1;
-    let searchable = Object.keys(globalInventory).filter(item =>
-        globalInventory[item].didSell === false
-    )
-    let forSaleMap = searchable.map((item) => {
+    let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
+    let forSaleMap = searchable.map(item => {
         if (globalInventory[item].description.indexOf(searchTerm) !== -1) {
             return globalInventory[item];
         }
     });
-    console.log(forSaleMap)
+    console.log(forSaleMap);
     return forSaleMap;
 }
 function searchForListings(searchTerm) {
     let searchArray = [];
     let elementCount = -1;
     let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
-    let forSaleMap = searchable.map((item) => globalInventory[item].description);
+    let forSaleMap = searchable.map(item => globalInventory[item].description);
     forSaleMap.forEach(function (element) {
         elementCount = elementCount + 1;
-        if (element.toString().split(" ").indexOf(searchTerm) >= 0) return searchArray.push(searchable[elementCount]);
+        if (element.toString().split(" ").indexOf(searchTerm) >= 0)
+            return searchArray.push(searchable[elementCount]);
     });
     console.log("here is my search function", searchArray);
     console.log("it is a function!!!", forSaleMap);
@@ -188,4 +191,4 @@ module.exports = {
     getListing,
     mapIDToListing
     // Add all the other functions that need to be exported
-}
+};
