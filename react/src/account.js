@@ -5,7 +5,10 @@ import YourItems from './yourListings.js';
 class AccountPage extends Component {
     constructor() {
         super();
-        this.state = { numberOfThingsInList: ["", "", "", "", "", "", "", "", "", ""] };
+        this.state = {};
+    }
+    componentDidMount = () => {
+
     }
     render() {
         return (<div className="AppMain">
@@ -19,12 +22,12 @@ class AccountPage extends Component {
                 <div className="AccountInfo">
                     <ul>Username : {this.props.userInfo}</ul>
                     <ul>---------------------------</ul>
-                    <ul>Number of Items Listed : {this.state.numberOfThingsInList.length}</ul>
+                    <ul>Number of Items Listed : undefined</ul>
                     <ul>Number of Items Sold : undefined</ul>
                     <ul>Number of Items Bought : undefined</ul>
                 </div>
                 <div className="UserAccountList">
-                    {this.state.numberOfThingsInList.map((x, i) => <div key={i} className="UserItemDiv">{<YourItems username={this.props.userInfo} />}</div>)}
+                    {/*this.state.numberOfThingsInList.map((x, i) => <div key={i} className="UserItemDiv">{<YourItems username={this.props.userInfo} />}</div>)*/}
                 </div>
             </div>
         </div>);

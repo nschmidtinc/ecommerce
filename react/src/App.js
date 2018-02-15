@@ -14,8 +14,11 @@ class App extends Component {
       currentPage: "main",
       userKnown: false,
       userName: "Guest",
-      displayResult: ["", "", "", "", "", ""]
+      displayResult: []
     };
+  }
+  componentDidMount = () => {
+    fetch('/globalListings').then(x => x.text()).then(x => console.log(x));
   }
   // searchResults = () => {
   //   if (this.searchInput.value === "") return;
@@ -25,15 +28,15 @@ class App extends Component {
   // }
   displayResults = () => {
     if (this.searchInput.value === "") return;
-    document.getElementById("SearchClearButton").disabled = false;
+    document.getElementsByClassName("SearchClearButton").disabled = false;
     var input = this.searchInput.value;
     this.searchInput.value = null;
     this.setState({ displayResult: this.state.displayResult.concat(input) });
   }
   clearSearch = () => {
     this.searchInput.value = null
-    this.setState({ displayResult: ["1", "2", "3", "4", "5", "6"] });
-    document.getElementById("SearchClearButton").disabled = true;
+    this.setState({ displayResult: [] });
+    document.getElementsByClassName("SearchClearButton").disabled = true;
   }
   clickAccountButton = () => { return this.setState({ currentPage: "account" }); }
   clickSignUpButton = () => { return this.setState({ currentPage: "sign up" }); }
@@ -59,9 +62,9 @@ class App extends Component {
         <div>
           <button type="button" onClick={this.displayResults}>Search!</button>
           <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} placeholder={"Hello " + this.state.userName + ", what are you looking to buy?"} />
-          <button id="SearchClearButton" type="button" onClick={this.clearSearch} disabled>Clear Search</button>
+          <button className="SearchClearButton" type="button" onClick={this.clearSearch} disabled>Clear Search</button>
         </div>
-        <div>{this.state.displayResult.map((x, i) => <div key={i} className="ItemDiv">{<GlobalListings /*info={this.state.displayResult[x]}*/ />}</div>)}</div>
+        <div>{this.state.displayResult.map((x, i) => <div key={i} className="ItemDiv">{<GlobalListings />}</div>)}</div>
         <button onClick={this.clickSpecialButton}></button>
       </div>
     </div>);
@@ -72,23 +75,13 @@ class App extends Component {
       case "account": return <AccountPage changePage={this.switchPage} userStatus={this.userStatus} userInfo={this.state.userName} />;
       case "sign up": return <SignUp changePage={this.switchPage} userStatus={this.userStatus} />;
       case "log in": return <LogIn changePage={this.switchPage} userStatus={this.userStatus} />;
-      case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.userName} />;// addListing={this.addItem}
+      case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.userName} />;// 
       case "special page": return <SpecialPage />
       default: return this.getMainPage();
     }
   }
   switchPage = (newPage) => { this.setState({ currentPage: newPage }); }
   userStatus = (userLog, username) => { this.setState({ userKnown: userLog, userName: username }); }
-  // addItem = (username, itemPrice, itemDesc) => {
-  //   var listing = {
-  //     "username": username,
-  //     "price": itemPrice,
-  //     "description": itemDesc
-  //   };
-  //   var userList = {};
-  //   userList[Math.floor(Math.random() * 100000000)] = listing;
-  //   this.setState({ userListings: userList });
-  // }
 }
 
 export default App;

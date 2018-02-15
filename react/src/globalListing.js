@@ -71,9 +71,9 @@ var list = {
 }
 
 class GlobalListings extends Component {
-    componentDidMount = () => {
-        //fetch('/globalListings', { method: "POST" }).then(x => x.text()).then(x => console.log(x));
-    }
+    // componentDidMount = () => {
+    //     fetch('/globalListings').then(x => x.text()).then(x => console.log(x));
+    // }
     render() {
         var x = list[Math.round(Math.random() * 10)]
         return (<div className="ItemDisplay">

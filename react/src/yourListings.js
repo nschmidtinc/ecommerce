@@ -31,7 +31,7 @@ var list = {
 
 class YourItems extends Component {
     componentDidMount = () => {
-        fetch('/userListings', { method: "POST", body: JSON.stringify({ user: this.props.username }) }).then(x => x.text()).then(x => console.log(x));
+        //fetch('/userListings', { method: "POST", body: JSON.stringify({ user: this.props.username }) }).then(x => x.text()).then(x => console.log(x));
     }
     render() {
         var x = list[Math.round(Math.random() * 4)]

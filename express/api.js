@@ -7,6 +7,7 @@ app.use(bodyParser.raw({ type: "*/*" }));
 var passwords = {};
 var userIDs = {};
 var userListing = {};
+var globalListings = {};
 
 try {
     passwords = JSON.parse(fs.readFileSync("passwords.json"));
@@ -16,6 +17,9 @@ try {
 } catch (err) { console.log("No user list exist"); }
 try {
     userListing = JSON.parse(fs.readFileSync("userListing.json"));
+} catch (err) { console.log("No user listings list exist"); }
+try {
+    globalListing = JSON.parse(fs.readFileSync("globalListing.json"));
 } catch (err) { console.log("No user listings list exist"); }
 
 app.post('/signup', (req, res) => {
@@ -47,9 +51,10 @@ app.post('/newListing', (req, res) => {
     console.log("new listing");
     let json = JSON.parse(req.body);
     let userID = userIDs[json.username];
-    console.log(userID);
-    userListing = alibay.createListing(userID, json.price, json.description);
+    userListing = alibay.createListing(userID, json.username, json.itemname, json.price, json.description);
     console.log(userListing);
+    alibay.saveListings();
+    // var x = alibay.getListing(userListing);
     fs.writeFileSync("userListing.json", JSON.stringify(alibay.getListing(userListing)));
     res.send(alibay.getListing(userListing));
 });
@@ -57,6 +62,7 @@ app.get('/globalListings', (req, res) => {
     let globalListings = alibay.allListings();
     // let jsonResponse = JSON.stringify(globalListings)
     // console.log(allListings())
+    //fs.writeFileSync("globalListing.json", JSON.stringify(alibay.globalListings(globalListings)));
     res.send(alibay.mapIDToListing(globalListings));
 });
 app.post('/userListings', (req, res) => {

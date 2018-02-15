@@ -4,15 +4,23 @@ import './App.css';
 class ListNewItem extends Component {
     validation = () => {
         var user = this.props.userInfo;
-        //var itemName = this.inputName.value;
+        var itemName = this.inputName.value;
         var itemPrice = this.inputPrice.value;
         var itemDesc = this.inputDesc.value;
-        /*this.inputName.value = null;*/ this.inputPrice.value = null; this.inputDesc.value = null;
-        fetch("/newListing", { method: "POST", body: JSON.stringify({ username: user, /*itemName: itemName,*/ price: itemPrice, description: itemDesc }) })
+        this.inputName.value = null; this.inputPrice.value = null; this.inputDesc.value = null;
+        fetch("/newListing", { method: "POST", body: JSON.stringify({ username: user, itemname: itemName, price: itemPrice, description: itemDesc }) })
             .then(x => x.text())
             .then(x => {
                 window.alert(x);
-                //this.props.addListing(user, itemPrice, itemDesc);
+                var newListing = JSON.parse(x);
+                console.log(newListing.listingID);
+                console.log(newListing.sellerID);
+                console.log(newListing.sellerName);
+                console.log(newListing.itemName);
+                console.log(newListing.price);
+                console.log(newListing.description);
+                console.log(newListing.didSell);
+                //this.props.addListing(newListing);
                 this.props.changePage("account");
             });
     }
@@ -21,7 +29,7 @@ class ListNewItem extends Component {
             <h1>Put Up a New Item For Sale</h1>
             <div className="ListNewItem">
                 <p><strong><ins>Username</ins> : </strong>{this.props.userInfo}</p>
-                {/*<p><strong><ins>Name</ins> : </strong><input type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></p>*/}
+                {<p><strong><ins>Name</ins> : </strong><input type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></p>}
                 <p><strong><ins>Price</ins> : </strong>$<input type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" />.00</p>
                 <p><strong><ins>Description</ins> : </strong></p>
                 <input className="InputDescription" type="text" ref={r => this.inputDesc = r} placeholder="Description" required="true" />
