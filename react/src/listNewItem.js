@@ -2,21 +2,18 @@ import React, { Component } from 'react';
 import './App.css';
 
 class ListNewItem extends Component {
-    constructor() {
-        super();
-        this.state = {}
-    }
     validation = () => {
         var user = this.props.userInfo;
         //var itemName = this.inputName.value;
         var itemPrice = this.inputPrice.value;
-        var description = this.inputDesc.value;
+        var itemDesc = this.inputDesc.value;
         /*this.inputName.value = null;*/ this.inputPrice.value = null; this.inputDesc.value = null;
-        fetch("/newListing", { method: "POST", body: JSON.stringify({ userName: user, /*itemName: itemName,*/ price: itemPrice, desc: description }) })
+        fetch("/newListing", { method: "POST", body: JSON.stringify({ username: user, /*itemName: itemName,*/ price: itemPrice, description: itemDesc }) })
             .then(x => x.text())
             .then(x => {
                 window.alert(x);
-                if (x === "New listing successful") { this.props.addListing(user, itemPrice, description); this.props.changePage("account"); }
+                //this.props.addListing(user, itemPrice, itemDesc);
+                this.props.changePage("account");
             });
     }
     render() {
@@ -25,7 +22,7 @@ class ListNewItem extends Component {
             <div className="ListNewItem">
                 <p><strong><ins>Username</ins> : </strong>{this.props.userInfo}</p>
                 {/*<p><strong><ins>Name</ins> : </strong><input type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></p>*/}
-                <p><strong><ins>Price</ins> : </strong><input type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" />.00$</p>
+                <p><strong><ins>Price</ins> : </strong>$<input type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" />.00</p>
                 <p><strong><ins>Description</ins> : </strong></p>
                 <input className="InputDescription" type="text" ref={r => this.inputDesc = r} placeholder="Description" required="true" />
                 <div>

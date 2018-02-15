@@ -4,32 +4,33 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 app.use(bodyParser.raw({ type: "*/*" }));
-var counter = 0;
 var passwords = {};
+var userIDs = {};
 var userListing = {};
-var userItems = {};
 
 try {
-    passwords = JSON.parse(fs.readFileSync("users.json"));
+    passwords = JSON.parse(fs.readFileSync("passwords.json"));
 } catch (err) { console.log("No password list exist"); }
+try {
+    userIDs = JSON.parse(fs.readFileSync("userIDs.json"));
+} catch (err) { console.log("No user list exist"); }
 try {
     userListing = JSON.parse(fs.readFileSync("userListing.json"));
 } catch (err) { console.log("No user listings list exist"); }
-try {
-    userItems = JSON.parse(fs.readFileSync("userItems.json"));
-} catch (err) { console.log("No item list exist"); }
 
 app.post('/signup', (req, res) => {
     console.log("signup");
-    var json = JSON.parse(req.body);
+    let json = JSON.parse(req.body);
     if (json.username === "") return res.send("Please enter a username");
     else if (json.password === "") return res.send("Please enter a password");
     else if (json.passwordConfirm === "") return res.send("Please confirm password");
     else if (passwords[json.username]) { return res.send("Username has already been taken"); }
     else if (json.password !== json.passwordConfirm) { return res.send("Confirmation password does not match password"); }
     else {
+        userIDs[json.username] = alibay.genUserID();
         passwords[json.username] = json.password;
-        fs.writeFileSync("users.json", JSON.stringify(passwords));
+        fs.writeFileSync("passwords.json", JSON.stringify(passwords));
+        fs.writeFileSync("userIDs.json", JSON.stringify(userIDs));
         res.send("Signup successful");
     }
 });
@@ -45,10 +46,53 @@ app.post('/login', (req, res) => {
 app.post('/newListing', (req, res) => {
     console.log("new listing");
     let json = JSON.parse(req.body);
-    userListing = alibay.createListing(json.userName, json.price, json.desc);
+    let userID = userIDs[json.username];
+    console.log(userID);
+    userListing = alibay.createListing(userID, json.price, json.description);
     console.log(userListing);
-    fs.writeFileSync("userListing.json", JSON.stringify(userListing));
-    res.send("New listing successful");
+    fs.writeFileSync("userListing.json", JSON.stringify(alibay.getListing(userListing)));
+    res.send(alibay.getListing(userListing));
 });
-
+app.get('/globalListings', (req, res) => {
+    let globalListings = alibay.allListings();
+    // let jsonResponse = JSON.stringify(globalListings)
+    // console.log(allListings())
+    res.send(alibay.mapIDToListing(globalListings));
+});
+app.post('/userListings', (req, res) => {
+    let json = JSON.parse(req.body);
+    let userID = userIDs[json.userName];
+    console.log("users items for sale");
+    let userListings = alibay.userListings(userID);
+    //let jsonResponse = JSON.stringify(userListings);
+    res.send(alibay.mapIDToListing(userListings));
+});
+app.post('/userSold', (req, res) => {
+    let json = JSON.parse(req.body);
+    let userID = userIDs[json.userName];
+    let userSoldListings = alibay.allItemsSold(userID);
+    //let jsonResponse = JSON.stringify(userSoldListings);
+    res.send(alibay.mapIDToListing(userSoldListings));
+});
+app.post('/userBought', (req, res) => {
+    let json = JSON.parse(req.body);
+    let userID = userIDs[json.userName];
+    let userBoughtListings = alibay.allItemsBought(userID);
+    //let jsonResponse = JSON.stringify(userSoldListings);
+    res.send(alibay.mapIDToListing(userBoughtListings));
+});
+app.post('/search', (req, res) => {
+    let json = JSON.parse(req.body);
+    let searchResults = alibay.searchForListings(json.searchTerm);
+    //let jsonResponse = JSON.stringify(searchQuery);
+    res.send(alibay.mapIDToListing(searchResults));
+});
+app.post('/buy', (req, res) => {
+    let json = JSON.parse(req.body);
+    let sellerID = userIDs[json.sellerName];
+    let buyerID = userIDs[json.buyerName];
+    let listingID = json.listingID;
+    let buyItem = alibay.buy(buyerID, sellerID, listingID);
+    res.send("purchase successful");
+});
 app.listen(4000);

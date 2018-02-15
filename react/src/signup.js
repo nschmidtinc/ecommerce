@@ -9,10 +9,10 @@ class SignUp extends Component {
         this.inputUser.value = null; this.inputPass.value = null; this.inputPassConfirm.value = null;
         fetch("/signup", { method: "POST", body: JSON.stringify({ username: user, password: pass, passwordConfirm: passConf }) })
             .then(x => x.text())
-                .then(x => {
-                    window.alert(x);
-                    if (x === "Signup successful") { this.props.changePage("main"); this.props.userStatus(true, user); }
-                });
+            .then(x => {
+                window.alert(x);
+                if (x === "Signup successful") { this.props.changePage("main"); this.props.userStatus(true, user); }
+            });
     }
     render() {
         return (<div className="AppMain">
@@ -22,8 +22,16 @@ class SignUp extends Component {
             <div><input ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50" /></div>
             <button onClick={this.validation} size="25">Submit</button>
             <button onClick={() => this.props.changePage("main")} size="25">Back</button>
-        </div>);
+        </div >);
     }
 }
 
 export default SignUp;
+
+/* {<form action="/signup?username="+this.inputUser+"&password="+this.inputPass+"" method="POST">
+    <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" /><br />
+    <input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /><br />
+    <input ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50" /><br />
+    <input type="submit" value="Submit" size="25" />
+    <button onClick={() => this.props.changePage("main")} size="25">Back</button>
+</form>} */
