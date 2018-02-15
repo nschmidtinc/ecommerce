@@ -5,10 +5,8 @@ class GlobalListings extends Component {
     render() {
         console.log("global");
         try {
-            console.log(this.props.obj);
-            console.log(this.props.obj[this.props.count]);
             return (<div className="ItemDisplay">
-                <button className="ItemDisplayButton">BUY NOW!</button>
+                <button>BUY NOW!</button>
                 <div>
                     <div className="SubItemDisplay"><img src="kirby.png" alt="Run Coward" height="75" width="75" /></div>
                     <div><small>

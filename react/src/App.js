@@ -66,7 +66,7 @@ class App extends Component {
           <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} placeholder={"Hello " + this.state.userName + ", what are you looking to buy?"} />
           <button className="SearchClearButton" type="button" onClick={this.clearSearch} disabled>Clear Search</button>
         </div>
-        <div className="">
+        <div className="GlobalItemList">
           {this.state.allListings.map((x, i) => (<GlobalListings key={i} count={i} obj={this.state.allListings} />))}
         </div>
         <button onClick={this.clickSpecialButton}></button>
