@@ -31,6 +31,14 @@ body {
   margin-top: 100px;
 }
 
+.UserLogInput {
+  width: 300px;
+}
+
+.UserLogButton {
+  width: 152px;
+}
+
 .UserAccountButtons {
   text-align: right;
   margin-top: 65px;

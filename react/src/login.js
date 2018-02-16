@@ -10,17 +10,17 @@ class LogIn extends Component {
             .then(x => x.text())
             .then(x => {
                 window.alert(x);
-                if (x === "Log in successful") { this.props.changePage("main"); this.props.userStatus(true, user); }
+                if (x === "Log in successful") { this.props.changePage("main"); this.props.userStatus(true, user); this.props.updateList(); }
             });
     }
     render() {
         console.log("login");
         return (<div className="AppMain">
             <h1>Login</h1>
-            <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
-            <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>
-            <button onClick={this.validation} size="50">Submit</button>
-            <button onClick={() => this.props.changePage("main")} size="50">Back</button>
+            <input className="UserLogInput" ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} />
+            <div><input className="UserLogInput" ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} /></div>
+            <button className="UserLogButton" onClick={this.validation}>Submit</button>
+            <button className="UserLogButton" onClick={() => this.props.changePage("main")}>Back</button>
         </div>);
     }
 }

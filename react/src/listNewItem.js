@@ -12,15 +12,15 @@ class ListNewItem extends Component {
             .then(x => x.text())
             .then(x => {
                 window.alert(x);
-                var newListing = JSON.parse(x);
-                console.log(newListing.listingID);
-                console.log(newListing.sellerID);
-                console.log(newListing.sellerName);
-                console.log(newListing.itemName);
-                console.log(newListing.price);
-                console.log(newListing.description);
-                console.log(newListing.didSell);
-                //this.props.addListing(newListing);
+                // var newListing = JSON.parse(x);
+                // console.log(newListing.listingID);
+                // console.log(newListing.sellerID);
+                // console.log(newListing.sellerName);
+                // console.log(newListing.itemName);
+                // console.log(newListing.price);
+                // console.log(newListing.description);
+                // console.log(newListing.didSell);
+                this.props.itemInfo(x);
                 this.props.changePage("account");
             });
     }

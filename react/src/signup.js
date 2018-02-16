@@ -11,18 +11,18 @@ class SignUp extends Component {
             .then(x => x.text())
             .then(x => {
                 window.alert(x);
-                if (x === "Signup successful") { this.props.changePage("main"); this.props.userStatus(true, user); }
+                if (x === "Signup successful") { this.props.changePage("main"); this.props.userStatus(true, user); this.props.updateList(); }
             });
     }
     render() {
         console.log("sign-in");
         return (<div className="AppMain">
             <h1>Register</h1>
-            <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
-            <div><input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>
-            <div><input ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50" /></div>
-            <button onClick={this.validation} size="25">Submit</button>
-            <button onClick={() => this.props.changePage("main")} size="25">Back</button>
+            <input className="UserLogInput" ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
+            <div><input className="UserLogInput" ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>
+            <div><input className="UserLogInput" ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50" /></div>
+            <button className="UserLogButton" onClick={this.validation}>Submit</button>
+            <button className="UserLogButton" onClick={() => this.props.changePage("main")}>Back</button>
         </div >);
     }
 }

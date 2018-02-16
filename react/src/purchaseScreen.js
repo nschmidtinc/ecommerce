@@ -3,13 +3,14 @@ import './App.css';
 
 class PurchaseScreen extends Component {
     clickBuyButton = () => {
-        fetch('/buy', { method: "POST", body: JSON.stringify({ buyerName: this.props.userInfo, sellerID: this.props.itemInfo.sellerID, listingID: this.props.itemInfo.listingID }) })
+        console.log("buying");
+        console.log(this.props.itemInfo);
+        fetch('/buy', { method: "POST", body: JSON.stringify({ buyerName: this.props.userInfo, sellerName: this.props.itemInfo.sellerName, listingID: this.props.itemInfo.listingID }) })
             .then(x => x.text())
             .then(x => {
-                console.log(x);
-                fetch('/globalListings').then(x => x.text()).then(x => { this.props.updateList(x) });
                 window.alert("FOOL! You foolishly fooled yourself in a foolish manner into fooling your foolish fool of a fool that you foolishly are to foolishingly purchase this foolish item with your foolishness you foolish fool!");
                 this.props.changePage("main");
+                this.props.updateList();
             });
     }
     canBuyItem = () => {

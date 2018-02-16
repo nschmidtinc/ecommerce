@@ -7,7 +7,7 @@ let globalInventory = {};
 try {
   let contents = fs.readFileSync("globalInventory.json");
   globalInventory = JSON.parse(contents);
-} catch (err) {}
+} catch (err) { }
 function saveListings() {
   return fs.writeFileSync(
     "globalInventory.json",
@@ -47,6 +47,7 @@ allItemsBought returns the IDs of all the items bought by a buyer
     returns: an array of listing IDs
 */
 function allItemsBought(buyerID) {
+  console.log("BUYING SHIT")
   console.log(buyerID, itemsBought);
   return itemsBought[buyerID].map(element => element.listingID);
 }
@@ -129,7 +130,7 @@ function sortByPrice() {
   );
   let searchIt = searchableByPrice
     .map(item1 => globalInventory[item1].price)
-    .sort(function(a, b) {
+    .sort(function (a, b) {
       return a - b;
       let sortIt = searchIt.map(item => {
         if (globalInventory[item1].price === item) {
@@ -142,10 +143,12 @@ function sortByPrice() {
     });
 }
 function userListings(userID) {
-  // console.log("items currently selling", sellerID, itemsSold[sellerID])
-  return Object.keys(globalInventory).filter(
-    item => globalInventory[item].sellerID === userID
-  );
+  console.log("userListings");
+  try {
+    console.log("hi", userID);
+  }
+  catch (err) { console.log(err); }
+  return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID);
 }
 function getListing(listingID) {
   return globalInventory[listingID];
@@ -173,18 +176,25 @@ Once an item is sold, it will not be returned by searchForListings
     parameter: [searchTerm] The search string matching listing itemDescriptions
     returns: an array of listing IDs
 */
-function searchForListings(searchTerm) {
+function searchForListings(searchTerm, query) {
   let searchArray = [];
   let elementCount = -1;
   let searchable = Object.keys(globalInventory).filter(
     item => globalInventory[item].didSell === false
   );
   console.log(searchTerm);
+  console.log("this is my query !!!!!!!!!!", query);
   let forSaleMap = searchable.map(item => {
-    if (globalInventory[item].description.indexOf(searchTerm) !== -1) {
+    console.log("this is item argument", item);
+    console.log("this is globale inventory####", globalInventory[item]);
+    if (
+      globalInventory[item][query].toLowerCase().indexOf(searchTerm) !== -1
+    ) {
+      console.log("!!!!!!!!why you no work!?", globalInventory[item][query]);
       searchArray.push(globalInventory[item]);
     }
-    console.log("these are my search results", searchArray);
+    //console.log("@@@@@@@@@@@ bada bing", globalInventory[item]);
+    //console.log("these are my search results", searchArray);
   });
   return searchArray;
 }
@@ -195,7 +205,7 @@ function xsearchForListings(searchTerm) {
     item => globalInventory[item].didSell === false
   );
   let forSaleMap = searchable.map(item => globalInventory[item].description);
-  forSaleMap.forEach(function(element) {
+  forSaleMap.forEach(function (element) {
     elementCount = elementCount + 1;
     if (
       element

@@ -6,7 +6,7 @@ import AccountPage from './account.js';
 import ListNewItem from './listNewItem.js';
 import GlobalListings from './globalListing.js';
 import PurchaseScreen from './purchaseScreen';
-import SpecialPage from './special page.js';
+// import SpecialPage from './special page.js';
 
 class App extends Component {
   constructor() {
@@ -21,22 +21,29 @@ class App extends Component {
     };
   }
   componentDidMount = () => {
-    fetch('/globalListings').then(x => x.text()).then(x => { this.setState({ allListings: JSON.parse(x) }); });
+    this.updateList();
   }
   searchResults = () => {
-    if (this.searchInput.value === "") return;
-    // var input = this.searchInput.value;
+    if (this.searchInput.value === "" || this.searchInput.value === " ") { this.searchInput.value = null; return; }
+    var input = this.searchInput.value;
     this.searchInput.value = null;
+    document.getElementById("ClearButton").disabled = false;
+    fetch('/search', { method: "POST", body: JSON.stringify({ searchTerm: input }) }).then(x => x.text()).then(x => { this.setState({ allListings: JSON.parse(x) }); });
   }
   clearSearch = () => {
-    this.searchInput.value = null
+    this.searchInput.value = null;
     this.setState({ displayResult: [] });
+    this.updateList();
   }
-  clickAccountButton = () => { return this.setState({ currentPage: "account" }); }
-  clickSignUpButton = () => { return this.setState({ currentPage: "sign up" }); }
-  clickLogInButton = () => { return this.setState({ currentPage: "log in" }); }
-  clickLogOutButton = () => { return this.setState({ userKnown: false, username: "Guest" }); }
-  clickSpecialButton = () => { return this.setState({ currentPage: "special page" }); }
+  updateList = () => {
+    if (document.getElementById("ClearButton")) { document.getElementById("ClearButton").disabled = true; }
+    fetch('/globalListings').then(x => x.text()).then(x => { this.setState({ allListings: JSON.parse(x) }); });
+  }
+  clickAccountButton = () => { this.updateList(); return this.setState({ currentPage: "account" }); }
+  clickSignUpButton = () => { this.updateList(); return this.setState({ currentPage: "sign up" }); }
+  clickLogInButton = () => { this.updateList(); return this.setState({ currentPage: "log in" }); }
+  clickLogOutButton = () => { this.updateList(); return this.setState({ userKnown: false, username: "Guest" }); }
+  // clickSpecialButton = () => { return this.setState({ currentPage: "special page" }); }
   loggedIn = () => {
     return (<div className="UserAccountButtons">
       <button onClick={this.clickAccountButton}>{this.state.username}</button>
@@ -57,29 +64,28 @@ class App extends Component {
         <div>
           <button type="button" onClick={this.searchResults}>Search!</button>
           <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} placeholder={"Hello " + this.state.username + ", what are you looking to buy?"} />
-          <button type="button" onClick={this.clearSearch} disabled="true">Clear Search</button>
+          <button id="ClearButton" type="button" onClick={this.clearSearch}>Clear Search</button>
         </div>
         <div className="GlobalItemList">
           {this.state.allListings.map((x, i) => (<GlobalListings key={i} changePage={this.switchPage} userLogged={this.state.userKnown} setItemInfo={this.setItemInfo} count={i} obj={this.state.allListings} />))}
         </div>
-        <button onClick={this.clickSpecialButton}></button>
+        {/* <button onClick={this.clickSpecialButton}></button> */}
       </div>
     </div>);
   }
   render() {
     switch (this.state.currentPage) {
       case "main": return this.getMainPage();
-      case "account": return <AccountPage changePage={this.switchPage} userStatus={this.userStatus} userInfo={this.state.username} />;
-      case "sign up": return <SignUp changePage={this.switchPage} userStatus={this.userStatus} />;
-      case "log in": return <LogIn changePage={this.switchPage} userStatus={this.userStatus} />;
-      case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.username} />;
+      case "account": return <AccountPage changePage={this.switchPage} updateList={this.updateList} userStatus={this.userStatus} userInfo={this.state.username} itemInfo={this.state.itemInfo} />;
+      case "sign up": return <SignUp changePage={this.switchPage} updateList={this.updateList} userStatus={this.userStatus} />;
+      case "log in": return <LogIn changePage={this.switchPage} updateList={this.updateList} userStatus={this.userStatus} />;
+      case "list new item": return <ListNewItem changePage={this.switchPage} updateList={this.updateList} userInfo={this.state.username} itemInfo={this.setItemInfo} />;
       case "purchase screen": return <PurchaseScreen changePage={this.switchPage} updateList={this.updateList} userInfo={this.state.username} itemInfo={this.state.itemInfo} userLogged={this.state.userKnown} />
-      case "special page": return <SpecialPage />;
+      //case "special page": return <SpecialPage />;
       default: return this.getMainPage();
     }
   }
-  updateList = (update) => { this.setState({ allListings: JSON.parse(update) }); }
-  setItemInfo = (newItemInfo) => { this.setState({ itemInfo: newItemInfo }); }
+  setItemInfo = (newItemInfo) => { this.setState({ itemInfo: newItemInfo }); console.log(this.state.itemInfo); }
   switchPage = (newPage) => { this.setState({ currentPage: newPage }); }
   userStatus = (userLog, username) => { this.setState({ userKnown: userLog, username: username }); }
 }
