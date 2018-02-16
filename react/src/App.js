@@ -16,7 +16,8 @@ class App extends Component {
       userKnown: false,
       username: "Guest",
       allListings: [],
-      numberOfListings: []
+      numberOfListings: [],
+      itemInfo: {}
     };
   }
   componentDidMount = () => {
@@ -40,7 +41,7 @@ class App extends Component {
     return (<div className="UserAccountButtons">
       <button onClick={this.clickAccountButton}>{this.state.username}</button>
       <button onClick={this.clickLogOutButton}>Log - out</button>
-    </div>)
+    </div>);
   }
   notLoggedIn = () => {
     return (<div className="UserAccountButtons">
@@ -59,7 +60,7 @@ class App extends Component {
           <button type="button" onClick={this.clearSearch} disabled="true">Clear Search</button>
         </div>
         <div className="GlobalItemList">
-          {this.state.allListings.map((x, i) => (<GlobalListings key={i} changePage={this.switchPage} userLogged={this.state.userKnown} count={i} obj={this.state.allListings}  />))}
+          {this.state.allListings.map((x, i) => (<GlobalListings key={i} changePage={this.switchPage} userLogged={this.state.userKnown} setItemInfo={this.setItemInfo} count={i} obj={this.state.allListings} />))}
         </div>
         <button onClick={this.clickSpecialButton}></button>
       </div>
@@ -72,11 +73,13 @@ class App extends Component {
       case "sign up": return <SignUp changePage={this.switchPage} userStatus={this.userStatus} />;
       case "log in": return <LogIn changePage={this.switchPage} userStatus={this.userStatus} />;
       case "list new item": return <ListNewItem changePage={this.switchPage} userInfo={this.state.username} />;
-      case "purchase screen": return <PurchaseScreen changePage={this.switchPage} userInfo={this.state.username} />
+      case "purchase screen": return <PurchaseScreen changePage={this.switchPage} updateList={this.updateList} userInfo={this.state.username} itemInfo={this.state.itemInfo} userLogged={this.state.userKnown} />
       case "special page": return <SpecialPage />;
       default: return this.getMainPage();
     }
   }
+  updateList = (update) => { this.setState({ allListings: JSON.parse(update) }); }
+  setItemInfo = (newItemInfo) => { this.setState({ itemInfo: newItemInfo }); }
   switchPage = (newPage) => { this.setState({ currentPage: newPage }); }
   userStatus = (userLog, username) => { this.setState({ userKnown: userLog, username: username }); }
 }

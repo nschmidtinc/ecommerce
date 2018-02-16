@@ -6,28 +6,17 @@ class AccountPage extends Component {
     constructor() {
         super();
         this.state = {
-            currentList: "listed",
-            userListings: []//,
-            // itemsBought: [],
-            // itemsSold: []
+            currentList: "Items Listed by ",
+            userListings: []
         };
     }
     componentDidMount = () => {
-        console.log(this.props.userInfo);
-        switch (this.state.currentList) {
-            case "listed":
-                fetch('/userListings', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
-                break;
-            case "bought":
-                fetch('/userBought', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
-                break;
-            case "sold":
-                fetch('/userSold', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
-                break;
-            default: break;
-        }
+        fetch('/userListings', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
     }
-    switchList = (newList) => { this.setState({ currentList: newList }); }
+    switchList = (endpoint, newList) => {
+        fetch(endpoint, { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
+        this.setState({ currentList: newList });
+    }
     render() {
         console.log("account");
         return (<div className="AppMain">
@@ -36,17 +25,15 @@ class AccountPage extends Component {
                 <button className="AccountButton" onClick={() => this.props.changePage("list new item")}>List a New Item For Sale</button>
                 <button className="AccountButton" onClick={() => this.props.changePage("main")} size="25">Back</button>
             </div>
-            <h4>{this.state.currentList === "listed" ? "Items Listed by " + this.props.userInfo : this.state.currentList === "bought" ? "Items purchased by " + this.props.userInfo : this.state.currentList === "sold" ? "Items sold by " + this.props.userInfo : "You're not supposed to see this"}</h4>
+            <h4>{this.state.currentList + this.props.userInfo}</h4>
             <div>
                 <div className="AccountInfo">
                     <ul>Username : {this.props.userInfo}</ul>
                     <ul>------------------------------------------------</ul>
-                    <ul><button onClick={() => this.switchList("listed")}>Display</button></ul>
-                    <ul>Number of Items Listed : {this.state.userListings.length}</ul>
-                    <ul><button onClick={() => this.switchList("bought")}>Display</button></ul>
-                    <ul>Number of Items Bought : {this.state.userListings.length}</ul>
-                    <ul><button onClick={() => this.switchList("sold")}>Display</button></ul>
-                    <ul>Number of Items Sold : {this.state.userListings.length}</ul>
+                    <ul>Number of Items : {this.state.userListings.length}</ul>
+                    <ul><button onClick={() => this.switchList('/userListings', "Items Listed by ")}>Display Items Listed</button></ul>
+                    <ul><button onClick={() => this.switchList('/userBought', "Items purchased by ")}>Display Items Bought</button></ul>
+                    <ul><button onClick={() => this.switchList('/userSold', "Items sold by ")}>Display Items Sold</button></ul>
                 </div>
                 <div className="UserAccountList">
                     {this.state.userListings.map((x, i) => (<YourListings key={i} count={i} obj={this.state.userListings} />))}
