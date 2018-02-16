@@ -7,12 +7,18 @@ let globalInventory = {};
 try {
   let contents = fs.readFileSync("globalInventory.json");
   globalInventory = JSON.parse(contents);
-} catch (err) { }
+} catch (err) { console.log("hi rodger"); }
 function saveListings() {
   return fs.writeFileSync(
     "globalInventory.json",
     JSON.stringify(globalInventory)
   );
+}
+function saveSold() {
+  return fs.writeFileSync("itemsSold.json", JSON.stringify(itemsSold));
+}
+function saveBought() {
+  return fs.writeFileSync("itemsBought.json", JSON.stringify(itemsBought));
 }
 /*
 Before implementing the login functionality, use this function to generate a new UserID every time.
@@ -41,16 +47,7 @@ function initializeUserIfNeeded(userID) {
     return putItemsBought(userID, []);
   }
 }
-/*
-allItemsBought returns the IDs of all the items bought by a buyer
-    parameter: [buyerID] The ID of the buyer
-    returns: an array of listing IDs
-*/
-function allItemsBought(buyerID) {
-  console.log("BUYING SHIT")
-  console.log(buyerID, itemsBought);
-  return itemsBought[buyerID].map(element => element.listingID);
-}
+
 /* 
 createListing adds a new listing to our global state.
 This function is incomplete. You need to complete it.
@@ -135,20 +132,13 @@ function sortByPrice() {
       let sortIt = searchIt.map(item => {
         if (globalInventory[item1].price === item) {
           searchIt.push(sortGlobalByPrice[item1]);
-          console.log(sortGlobalByPrice);
         }
       });
-      console.log(sortGlobalByPrice);
       return sortByGlobalPrice;
     });
 }
 function userListings(userID) {
-  console.log("userListings");
-  try {
-    console.log("hi", userID);
-  }
-  catch (err) { console.log(err); }
-  return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID);
+  return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID && globalInventory[item].didSell === false);
 }
 function getListing(listingID) {
   return globalInventory[listingID];
@@ -157,8 +147,17 @@ function mapIDToListing(arrayofListings) {
   return arrayofListings.map(listingID => globalInventory[listingID]);
 }
 function allItemsSold(sellerID) {
-  // console.log("items that have sold by", sellerID, itemsSold[sellerID])
+  if(!itemsSold[sellerID]) return [];
   return itemsSold[sellerID].map(element => element.listingID);
+}
+/*
+allItemsBought returns the IDs of all the items bought by a buyer
+    parameter: [buyerID] The ID of the buyer
+    returns: an array of listing IDs
+*/
+function allItemsBought(buyerID) {
+  if(!itemsBought[buyerID]) return [];
+  return itemsBought[buyerID].map(element => element.listingID);
 }
 /*
 allListings returns the IDs of all the listings currently on the market
@@ -166,9 +165,7 @@ Once an item is sold, it will not be returned by allListings
     returns: an array of listing IDs
 */
 allListings = () => {
-  return Object.keys(globalInventory).filter(
-    item => globalInventory[item].didSell === false
-  );
+  return Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
 };
 /*
 searchForListings returns the IDs of all the listings currently on the market
@@ -179,31 +176,18 @@ Once an item is sold, it will not be returned by searchForListings
 function searchForListings(searchTerm, query) {
   let searchArray = [];
   let elementCount = -1;
-  let searchable = Object.keys(globalInventory).filter(
-    item => globalInventory[item].didSell === false
-  );
-  console.log(searchTerm);
-  console.log("this is my query !!!!!!!!!!", query);
+  let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
   let forSaleMap = searchable.map(item => {
-    console.log("this is item argument", item);
-    console.log("this is globale inventory####", globalInventory[item]);
-    if (
-      globalInventory[item][query].toLowerCase().indexOf(searchTerm) !== -1
-    ) {
-      console.log("!!!!!!!!why you no work!?", globalInventory[item][query]);
+    if (globalInventory[item][query].toLowerCase().indexOf(searchTerm) !== -1) {
       searchArray.push(globalInventory[item]);
     }
-    //console.log("@@@@@@@@@@@ bada bing", globalInventory[item]);
-    //console.log("these are my search results", searchArray);
   });
   return searchArray;
 }
 function xsearchForListings(searchTerm) {
   let searchArray = [];
   let elementCount = -1;
-  let searchable = Object.keys(globalInventory).filter(
-    item => globalInventory[item].didSell === false
-  );
+  let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
   let forSaleMap = searchable.map(item => globalInventory[item].description);
   forSaleMap.forEach(function (element) {
     elementCount = elementCount + 1;

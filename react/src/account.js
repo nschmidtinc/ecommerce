@@ -11,24 +11,14 @@ class AccountPage extends Component {
         };
     }
     componentDidMount = () => {
-        fetch('/globalListings').then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
-        //fetch('/userListings', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
+        fetch('/userListings', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
     }
-    displayListedList = (newList) => {
-        fetch('/userListings', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { console.log(x); this.setState({ userListings: JSON.parse(x) }); });
-        this.setState({ currentList: newList });
-    }
-    displayBoughtList = (newList) => {
-        fetch('/userBought', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
-        this.setState({ currentList: newList });
-    }
-    displaySoldList = (newList) => {
-        fetch('/userSold', { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
+    switchList = (endpoint, newList) => {
+        fetch(endpoint, { method: "POST", body: JSON.stringify({ username: this.props.userInfo }) }).then(x => x.text()).then(x => { this.setState({ userListings: JSON.parse(x) }); });
         this.setState({ currentList: newList });
     }
     render() {
         console.log("account");
-        console.log(this.state.userListings);
         return (<div className="AppMain">
             <h1>{this.props.userInfo}'s Account Information</h1>
             <div className="AccountButtons">
@@ -41,9 +31,9 @@ class AccountPage extends Component {
                     <ul>Username : {this.props.userInfo}</ul>
                     <ul>------------------------------------------------</ul>
                     <ul>Number of Items : {this.state.userListings.length}</ul>
-                    <ul><button onClick={() => this.displayListedList("Items Listed by ")}>Display Items Listed</button></ul>
-                    <ul><button onClick={() => this.displayBoughtList("Items purchased by ")}>Display Items Bought</button></ul>
-                    <ul><button onClick={() => this.displaySoldList("Items sold by ")}>Display Items Sold</button></ul>
+                    <ul><button onClick={() => this.switchList('/userListings', "Items Listed by ")}>Display Items Listed</button></ul>
+                    <ul><button onClick={() => this.switchList('/userBought', "Items purchased by ")}>Display Items Bought</button></ul>
+                    <ul><button onClick={() => this.switchList('/userSold', "Items sold by ")}>Display Items Sold</button></ul>
                 </div>
                 <div className="UserAccountList">
                     {this.state.userListings.map((x, i) => (<YourListings key={i} count={i} obj={this.state.userListings} />))}

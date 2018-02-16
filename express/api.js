@@ -24,9 +24,14 @@ try {
   console.log("No user listings list exist");
 }
 try {
-  globalListing = JSON.parse(fs.readFileSync("globalListing.json"));
+  itemsSold = JSON.parse(fs.readFileSync("itemsSold.json"));
 } catch (err) {
-  console.log("No global listings list exist");
+  console.log("no items sold exist");
+}
+try {
+  itemsBought = JSON.parse(fs.readFileSync("itemsBought.json"));
+} catch (err) {
+  console.log("no items bought exist");
 }
 app.post("/signup", (req, res) => {
   console.log("signup");
@@ -95,8 +100,6 @@ app.post("/search", (req, res) => {
   searchResults2.map(item => searchArray.push(item));
   let searchResults3 = alibay.searchForListings(safeSearch, "price");
   searchResults3.map(item => searchArray.push(item));
-  console.log(searchArray);
-  console.log("api these are my search results", searchArray);
   res.send(searchArray);
 });
 app.post("/buy", (req, res) => {
@@ -106,18 +109,17 @@ app.post("/buy", (req, res) => {
   let buyerID = userIDs[json.buyerName];
   let listingID = json.listingID;
   let buyItem = alibay.buy(buyerID, sellerID, listingID);
+  alibay.saveSold();
+  alibay.saveBought();
   res.send("purchase successful");
 });
 app.post("/userListings", (req, res) => {
   console.log("user listings");
   let json = JSON.parse(req.body);
-  console.log("Text for the non believer ", json);
   let userID = userIDs[json.username];
-  console.log(userID);
-  console.log("users items for sale");
+  console.log("json ",json);
+  console.log("userID ", userID);
   let userListings = alibay.userListings(userID);
-  console.log(userListings);
-  //let jsonResponse = JSON.stringify(userListings);
   res.send(alibay.mapIDToListing(userListings));
 });
 app.post("/userBought", (req, res) => {
@@ -126,7 +128,6 @@ app.post("/userBought", (req, res) => {
   let userID = userIDs[json.username];
   let userBoughtListings = alibay.allItemsBought(userID);
   //let jsonResponse = JSON.stringify(userSoldListings);
-  console.log(userBoughtListings);
   res.send(alibay.mapIDToListing(userBoughtListings));
 });
 app.post("/userSold", (req, res) => {

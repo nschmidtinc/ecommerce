@@ -14,7 +14,9 @@ class PurchaseScreen extends Component {
             });
     }
     canBuyItem = () => {
-        return (<button onClick={this.clickBuyButton}>Purchase</button>);
+        return (<div>
+            <button onClick={this.clickBuyButton}>Purchase</button>
+        </div>);
     }
     cannotBuyItem = () => {
         return (<div>

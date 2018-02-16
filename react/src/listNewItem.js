@@ -41,6 +41,4 @@ class ListNewItem extends Component {
         </div>);
     }
 }
-// <div><input type="image" src="" /></div>
-// <input type="checkbox"></input>
 export default ListNewItem;
