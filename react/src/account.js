@@ -36,7 +36,7 @@ class AccountPage extends Component {
                     <ul><button onClick={() => this.switchList('/userSold', "Items sold by ")}>Display Items Sold</button></ul>
                 </div>
                 <div className="UserAccountList">
-                    {this.state.userListings.map((x, i) => (<YourListings key={i} count={i} obj={this.state.userListings} />))}
+                    {this.state.userListings.map((x, i) => (<YourListings key={i} count={i} obj={this.state.userListings} currentList={this.state.currentList} updateList={this.switchList} />))}
                 </div>
             </div>
         </div>);

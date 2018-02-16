@@ -66,7 +66,8 @@ function createListing(sellerID, sellerName, itemName, price, description) {
     itemName,
     price,
     description,
-    didSell: false
+    didSell: false,
+    isDeleted: false
   };
   globalInventory[listingID] = listingObj;
   if (!itemsForSale[sellerID]) itemsForSale[sellerID] = [];
@@ -138,7 +139,7 @@ function sortByPrice() {
     });
 }
 function userListings(userID) {
-  return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID && globalInventory[item].didSell === false);
+  return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID && globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
 }
 function getListing(listingID) {
   return globalInventory[listingID];
@@ -147,7 +148,7 @@ function mapIDToListing(arrayofListings) {
   return arrayofListings.map(listingID => globalInventory[listingID]);
 }
 function allItemsSold(sellerID) {
-  if(!itemsSold[sellerID]) return [];
+  if (!itemsSold[sellerID]) return [];
   return itemsSold[sellerID].map(element => element.listingID);
 }
 /*
@@ -156,7 +157,7 @@ allItemsBought returns the IDs of all the items bought by a buyer
     returns: an array of listing IDs
 */
 function allItemsBought(buyerID) {
-  if(!itemsBought[buyerID]) return [];
+  if (!itemsBought[buyerID]) return [];
   return itemsBought[buyerID].map(element => element.listingID);
 }
 /*
@@ -165,39 +166,31 @@ Once an item is sold, it will not be returned by allListings
     returns: an array of listing IDs
 */
 allListings = () => {
-  return Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
+  return Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
 };
+function deleteListing(listingID) {
+  globalInventory[listingID].isDeleted = true;
+}
 /*
 searchForListings returns the IDs of all the listings currently on the market
 Once an item is sold, it will not be returned by searchForListings
     parameter: [searchTerm] The search string matching listing itemDescriptions
     returns: an array of listing IDs
 */
-function searchForListings(searchTerm, query) {
+function searchForListings(searchTerm) {
   let searchArray = [];
   let elementCount = -1;
-  let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
-  let forSaleMap = searchable.map(item => {
-    if (globalInventory[item][query].toLowerCase().indexOf(searchTerm) !== -1) {
+  let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
+  searchable.map(item => {
+    if (globalInventory[item]["description"].toLowerCase().indexOf(searchTerm) !== -1) {
       searchArray.push(globalInventory[item]);
     }
-  });
-  return searchArray;
-}
-function xsearchForListings(searchTerm) {
-  let searchArray = [];
-  let elementCount = -1;
-  let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
-  let forSaleMap = searchable.map(item => globalInventory[item].description);
-  forSaleMap.forEach(function (element) {
-    elementCount = elementCount + 1;
-    if (
-      element
-        .toString()
-        .split(" ")
-        .indexOf(searchTerm) >= 0
-    )
-      return searchArray.push(searchable[elementCount]);
+    else if (globalInventory[item]["itemName"].toLowerCase().indexOf(searchTerm) !== -1) {
+      searchArray.push(globalInventory[item]);
+    }
+    else if (globalInventory[item]["price"].toLowerCase().indexOf(searchTerm) !== -1) {
+      searchArray.push(globalInventory[item]);
+    }
   });
   return searchArray;
 }
@@ -217,6 +210,7 @@ module.exports = {
   userListings,
   getListing,
   sortByPrice,
-  mapIDToListing
+  mapIDToListing,
+  deleteListing
   // Add all the other functions that need to be exported
 };

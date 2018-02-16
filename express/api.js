@@ -79,6 +79,13 @@ app.post("/newListing", (req, res) => {
   alibay.saveListings();
   res.send(alibay.getListing(userListing));
 });
+app.post("/deleteListing", (req, res) => {
+  console.log("delete listing");
+  let json = JSON.parse(req.body);
+  let listingID = json.listingID;
+  alibay.deleteListing(listingID);
+  res.send("Listing deleted");
+});
 app.get("/globalListings", (req, res) => {
   console.log("global listing");
   let globalListings = alibay.allListings();
@@ -89,17 +96,24 @@ app.get("/sortByPrice", (req, res) => {
   let listingsByPrice = alibay.sortByPrice();
   res.send(listingsByPrice);
 });
+// app.post("/search", (req, res) => {
+//   console.log("search");
+//   searchArray = [];
+//   let json = JSON.parse(req.body);
+//   let safeSearch = json.searchTerm.toLowerCase();
+//   searchResults = alibay.searchForListings(safeSearch);
+//   searchResults.map(item => searchArray.push(item));
+//   console.log(searchArray);
+//   console.log("api these are my search results", searchArray);
+//   res.send(searchArray);
+// });
 app.post("/search", (req, res) => {
   console.log("search");
   searchArray = [];
   let json = JSON.parse(req.body);
   let safeSearch = json.searchTerm.toLowerCase();
-  let searchResults1 = alibay.searchForListings(safeSearch, "description");
-  searchResults1.map(item => searchArray.push(item));
-  let searchResults2 = alibay.searchForListings(safeSearch, "itemName");
-  searchResults2.map(item => searchArray.push(item));
-  let searchResults3 = alibay.searchForListings(safeSearch, "price");
-  searchResults3.map(item => searchArray.push(item));
+  let searchResults = alibay.searchForListings(safeSearch);
+  searchResults.map(item => searchArray.push(item));
   res.send(searchArray);
 });
 app.post("/buy", (req, res) => {
@@ -117,7 +131,7 @@ app.post("/userListings", (req, res) => {
   console.log("user listings");
   let json = JSON.parse(req.body);
   let userID = userIDs[json.username];
-  console.log("json ",json);
+  console.log("json ", json);
   console.log("userID ", userID);
   let userListings = alibay.userListings(userID);
   res.send(alibay.mapIDToListing(userListings));
