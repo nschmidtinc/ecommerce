@@ -7,7 +7,6 @@ class PurchaseScreen extends Component {
         this.state = { invalidPurchase: false }
     }
     componentDidMount = () => {
-        console.log("HELLO", this.props.userInfo === this.props.itemInfo.sellerName)
         this.props.userInfo === this.props.itemInfo.sellerName ? this.setState({ invalidPurchase: true }) : this.setState({ invalidPurchase: false })
     }
     clickBuyButton = () => {

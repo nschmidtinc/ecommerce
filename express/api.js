@@ -23,16 +23,7 @@ try {
 } catch (err) {
   console.log("No user listings list exist");
 }
-try {
-  itemsSold = JSON.parse(fs.readFileSync("itemsSold.json"));
-} catch (err) {
-  console.log("no items sold exist");
-}
-try {
-  itemsBought = JSON.parse(fs.readFileSync("itemsBought.json"));
-} catch (err) {
-  console.log("no items bought exist");
-}
+
 app.post("/signup", (req, res) => {
   console.log("signup");
   let json = JSON.parse(req.body);
@@ -96,17 +87,6 @@ app.get("/sortByPrice", (req, res) => {
   let listingsByPrice = alibay.sortByPrice();
   res.send(listingsByPrice);
 });
-// app.post("/search", (req, res) => {
-//   console.log("search");
-//   searchArray = [];
-//   let json = JSON.parse(req.body);
-//   let safeSearch = json.searchTerm.toLowerCase();
-//   searchResults = alibay.searchForListings(safeSearch);
-//   searchResults.map(item => searchArray.push(item));
-//   console.log(searchArray);
-//   console.log("api these are my search results", searchArray);
-//   res.send(searchArray);
-// });
 app.post("/search", (req, res) => {
   console.log("search");
   searchArray = [];
@@ -123,8 +103,6 @@ app.post("/buy", (req, res) => {
   let buyerID = userIDs[json.buyerName];
   let listingID = json.listingID;
   let buyItem = alibay.buy(buyerID, sellerID, listingID);
-  alibay.saveSold();
-  alibay.saveBought();
   res.send("purchase successful");
 });
 app.post("/userListings", (req, res) => {

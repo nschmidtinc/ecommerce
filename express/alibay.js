@@ -5,24 +5,19 @@ let itemsForSale = {};
 let itemsSold = {};
 let globalInventory = {};
 try {
-  let contents = fs.readFileSync("globalInventory.json");
-  globalInventory = JSON.parse(contents);
-} catch (err) { console.log("hi rodger"); }
+  globalInventory = JSON.parse(fs.readFileSync("globalInventory.json"));
+} catch (err) { console.log("no global list exist"); }
+try {
+  itemsSold = JSON.parse(fs.readFileSync("itemsSold.json"));
+} catch (err) { console.log("no items sold exist"); }
+try {
+  itemsBought = JSON.parse(fs.readFileSync("itemsBought.json"));
+} catch (err) { console.log("no items bought exist"); }
+
+
 function saveListings() {
-  return fs.writeFileSync(
-    "globalInventory.json",
-    JSON.stringify(globalInventory)
-  );
+  return fs.writeFileSync("globalInventory.json", JSON.stringify(globalInventory));
 }
-function saveSold() {
-  return fs.writeFileSync("itemsSold.json", JSON.stringify(itemsSold));
-}
-function saveBought() {
-  return fs.writeFileSync("itemsBought.json", JSON.stringify(itemsBought));
-}
-/*
-Before implementing the login functionality, use this function to generate a new UserID every time.
-*/
 function genUserID() {
   return Math.floor(Math.random() * 100000000);
 }
@@ -31,9 +26,7 @@ function putItemsBought(userID, value) {
 }
 function getItemsBought(userID) {
   var ret = itemsBought[userID];
-  if (ret == undefined) {
-    return null;
-  }
+  if (ret == undefined) { return null; }
   return ret;
 }
 /*
@@ -43,9 +36,8 @@ returns: A promise
 */
 function initializeUserIfNeeded(userID) {
   var items = getItemsBought[userID];
-  if (items == undefined) {
+  if (items == undefined)
     return putItemsBought(userID, []);
-  }
 }
 
 /* 
@@ -99,41 +91,33 @@ The seller will see the listing in his history of items sold
     returns: A promise indicating that the action was done
 */
 function buy(buyerID, sellerID, listingID) {
+  globalInventory[listingID].didSell = true
   var listing = globalInventory[listingID];
-  listing.forSale = false;
-  listing.didSell = true;
+  fs.writeFileSync("globalInventory.json", JSON.stringify(globalInventory));
+
   buyerBought = itemsBought[buyerID];
-  if (!buyerBought) {
-    buyerBought = [];
-  }
-  sellerSold = itemsSold[sellerID];
-  if (!sellerSold) {
-    sellerSold = [];
-  }
-  sellerSold.push(listing);
-  itemsSold[sellerID] = sellerSold;
+  if (!buyerBought) { buyerBought = []; }
   buyerBought.push(listing);
   itemsBought[buyerID] = buyerBought;
-  return buyerBought;
+  fs.writeFileSync("itemsBought.json", JSON.stringify(itemsBought));
+
+  sellerSold = itemsSold[sellerID];
+  if (!sellerSold) { sellerSold = []; }
+  sellerSold.push(listing);
+  itemsSold[sellerID] = sellerSold;
+  fs.writeFileSync("itemsSold.json", JSON.stringify(itemsSold));
 }
-/* 
-allItemsSold returns the IDs of all the items sold by a seller
-    parameter: [sellerID] The ID of the seller
-    returns: an array of listing IDs
-*/
+
 function sortByPrice() {
   let sortGlobalByPrice = [];
-  let searchableByPrice = Object.keys(globalInventory).filter(
-    item => globalInventory[item].didSell === false
-  );
+  let searchableByPrice = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false);
   let searchIt = searchableByPrice
     .map(item1 => globalInventory[item1].price)
     .sort(function (a, b) {
       return a - b;
       let sortIt = searchIt.map(item => {
-        if (globalInventory[item1].price === item) {
+        if (globalInventory[item1].price === item)
           searchIt.push(sortGlobalByPrice[item1]);
-        }
       });
       return sortByGlobalPrice;
     });
@@ -141,15 +125,19 @@ function sortByPrice() {
 function userListings(userID) {
   return Object.keys(globalInventory).filter(item => globalInventory[item].sellerID === userID && globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
 }
-function getListing(listingID) {
-  return globalInventory[listingID];
-}
 function mapIDToListing(arrayofListings) {
   return arrayofListings.map(listingID => globalInventory[listingID]);
 }
-function allItemsSold(sellerID) {
-  if (!itemsSold[sellerID]) return [];
-  return itemsSold[sellerID].map(element => element.listingID);
+/*
+allListings returns the IDs of all the listings currently on the market
+Once an item is sold, it will not be returned by allListings
+    returns: an array of listing IDs
+*/
+function allListings() {
+  return Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
+};
+function getListing(listingID) {
+  return globalInventory[listingID];
 }
 /*
 allItemsBought returns the IDs of all the items bought by a buyer
@@ -161,13 +149,14 @@ function allItemsBought(buyerID) {
   return itemsBought[buyerID].map(element => element.listingID);
 }
 /*
-allListings returns the IDs of all the listings currently on the market
-Once an item is sold, it will not be returned by allListings
+allItemsSold returns the IDs of all the items sold by a seller
+    parameter: [sellerID] The ID of the seller
     returns: an array of listing IDs
 */
-allListings = () => {
-  return Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
-};
+function allItemsSold(sellerID) {
+  if (!itemsSold[sellerID]) return [];
+  return itemsSold[sellerID].map(element => element.listingID);
+}
 function deleteListing(listingID) {
   globalInventory[listingID].isDeleted = true;
 }
@@ -182,20 +171,17 @@ function searchForListings(searchTerm) {
   let elementCount = -1;
   let searchable = Object.keys(globalInventory).filter(item => globalInventory[item].didSell === false && globalInventory[item].isDeleted === false);
   searchable.map(item => {
-    if (globalInventory[item]["description"].toLowerCase().indexOf(searchTerm) !== -1) {
+    if (globalInventory[item]["description"].toLowerCase().indexOf(searchTerm) !== -1)
       searchArray.push(globalInventory[item]);
-    }
-    else if (globalInventory[item]["itemName"].toLowerCase().indexOf(searchTerm) !== -1) {
+    else if (globalInventory[item]["itemName"].toLowerCase().indexOf(searchTerm) !== -1)
       searchArray.push(globalInventory[item]);
-    }
-    else if (globalInventory[item]["price"].toLowerCase().indexOf(searchTerm) !== -1) {
+    else if (globalInventory[item]["price"].toString().indexOf(searchTerm) !== -1)
       searchArray.push(globalInventory[item]);
-    }
   });
   return searchArray;
 }
 module.exports = {
-  genUserID, // This is just a shorthand. It's the same as genUserID: genUserID.
+  genUserID,
   saveListings,
   initializeUserIfNeeded,
   putItemsBought,
@@ -212,5 +198,4 @@ module.exports = {
   sortByPrice,
   mapIDToListing,
   deleteListing
-  // Add all the other functions that need to be exported
 };

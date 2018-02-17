@@ -36,7 +36,8 @@ class App extends Component {
     this.updateList();
   }
   updateList = () => {
-    fetch('/globalListings').then(x => x.text()).then(x => { this.setState({ allListings: JSON.parse(x), clearButtonDisabled: true }); });
+    console.log("updating");
+    fetch('/globalListings').then(x => x.text()).then(x => { console.log(x); this.setState({ allListings: JSON.parse(x), clearButtonDisabled: true }); });
   }
   clickAccountButton = () => { this.updateList(); return this.setState({ currentPage: "account" }); }
   clickSignUpButton = () => { this.updateList(); return this.setState({ currentPage: "sign up" }); }
@@ -84,7 +85,7 @@ class App extends Component {
       default: return this.getMainPage();
     }
   }
-  setItemInfo = (newItemInfo) => { this.setState({ itemInfo: newItemInfo }); console.log(this.state.itemInfo); }
+  setItemInfo = (newItemInfo) => { this.setState({ itemInfo: newItemInfo }); }
   switchPage = (newPage) => { this.setState({ currentPage: newPage }); }
   userStatus = (userLog, username) => { this.setState({ userKnown: userLog, username: username }); }
 }
