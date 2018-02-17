@@ -28,11 +28,3 @@ class SignUp extends Component {
 }
 
 export default SignUp;
-
-/* {<form action="/signup?username="+this.inputUser+"&password="+this.inputPass+"" method="POST">
-    <input ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" /><br />
-    <input ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /><br />
-    <input ref={r => this.inputPassConfirm = r} type="password" placeholder="Password Confirmation" required={true} size="50" /><br />
-    <input type="submit" value="Submit" size="25" />
-    <button onClick={() => this.props.changePage("main")} size="25">Back</button>
-</form>} */

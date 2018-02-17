@@ -131,7 +131,9 @@ body {
   margin-top: 20px;
   width: 127px;
 }
-
+.CheckOutPage {
+  text-align: left;
+}
 p {
   padding: 0px;
   margin: 0 px;

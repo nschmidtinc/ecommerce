@@ -28,7 +28,6 @@ class App extends Component {
     if (this.searchInput.value === "" || this.searchInput.value === " ") { this.searchInput.value = null; return; }
     var input = this.searchInput.value;
     this.searchInput.value = null;
-    document.getElementById("ClearButton").disabled = false;
     fetch('/search', { method: "POST", body: JSON.stringify({ searchTerm: input }) }).then(x => x.text()).then(x => { this.setState({ allListings: JSON.parse(x), clearButtonDisabled: false }); });
   }
   clearSearch = () => {
@@ -64,7 +63,7 @@ class App extends Component {
         <div>
           <button type="button" onClick={this.searchResults}>Search!</button>
           <input className="SearchBox" type="search" name="q" ref={r => this.searchInput = r} placeholder={"Hello " + this.state.username + ", what are you looking to buy?"} />
-          <button id="ClearButton" type="button" onClick={this.clearSearch} disabled={this.state.clearButtonDisabled}>Clear Search</button>
+          <button type="button" onClick={this.clearSearch} disabled={this.state.clearButtonDisabled}>Clear Search</button>
         </div>
         <div className="GlobalItemList">
           {this.state.allListings.map((x, i) => (<GlobalListings key={i} changePage={this.switchPage} userLogged={this.state.userKnown} setItemInfo={this.setItemInfo} count={i} obj={this.state.allListings} />))}

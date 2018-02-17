@@ -11,14 +11,12 @@ class YourListings extends Component {
             });
     }
     isDeletable = () => {
-        console.log(this.props.currentList);
         if (this.props.currentList === "Items Listed by ") {
             return (<button onClick={this.listingDeleted}>Remove It</button>);
         }
     }
     render() {
         console.log("user listing");
-        console.log(this.props.currentList);
         return (<div className="UserItemDisplay">
             {this.isDeletable()}
             <div>

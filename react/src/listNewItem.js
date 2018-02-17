@@ -8,21 +8,18 @@ class ListNewItem extends Component {
         var itemPrice = this.inputPrice.value;
         var itemDesc = this.inputDesc.value;
         this.inputName.value = null; this.inputPrice.value = null; this.inputDesc.value = null;
-        fetch("/newListing", { method: "POST", body: JSON.stringify({ username: user, itemname: itemName, price: itemPrice, description: itemDesc }) })
-            .then(x => x.text())
-            .then(x => {
-                window.alert(x);
-                // var newListing = JSON.parse(x);
-                // console.log(newListing.listingID);
-                // console.log(newListing.sellerID);
-                // console.log(newListing.sellerName);
-                // console.log(newListing.itemName);
-                // console.log(newListing.price);
-                // console.log(newListing.description);
-                // console.log(newListing.didSell);
-                this.props.itemInfo(x);
-                this.props.changePage("account");
-            });
+        if (itemName === "" || itemName === " ") return window.alert("Please enter a name for your listing");
+        else if (itemPrice === "") { return window.alert("Please enter a price for your listing"); }
+        else if (parseInt(itemPrice, 10) === 0) { return window.alert("You cannot list items for free!"); }
+        else if (itemDesc === "" || itemDesc === " ") { return window.alert("Please enter a description for your listing"); }
+        else {
+            fetch("/newListing", { method: "POST", body: JSON.stringify({ username: user, itemname: itemName, price: Math.round(itemPrice), description: itemDesc }) })
+                .then(x => x.text())
+                .then(x => {
+                    this.props.itemInfo(x);
+                    this.props.changePage("account");
+                });
+        }
     }
     render() {
         return (<div className="AppMain">
