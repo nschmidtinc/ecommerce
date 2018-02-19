@@ -7,6 +7,7 @@ class ListNewItem extends Component {
         var itemName = this.inputName.value;
         var itemPrice = this.inputPrice.value;
         var itemDesc = this.inputDesc.value;
+        //var itemImg = this.inputImg.value;
         this.inputName.value = null; this.inputPrice.value = null; this.inputDesc.value = null;
         if (itemName === "" || itemName === " ") return window.alert("Please enter a name for your listing");
         else if (itemPrice === "") { return window.alert("Please enter a price for your listing"); }
@@ -22,18 +23,15 @@ class ListNewItem extends Component {
         }
     }
     render() {
-        return (<div className="AppMain">
+        return (<div className="App">
             <h1>Put Up a New Item For Sale</h1>
             <div className="ListNewItem">
-                <p><strong><ins>Username</ins> : </strong>{this.props.userInfo}</p>
-                {<p><strong><ins>Name</ins> : </strong><input type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></p>}
-                <p><strong><ins>Price</ins> : </strong>$<input type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" />.00</p>
-                <p><strong><ins>Description</ins> : </strong></p>
-                <input className="InputDescription" type="text" ref={r => this.inputDesc = r} placeholder="Description" required="true" />
-                <div>
-                    <button className="ListItemButton" onClick={this.validation}>Display It For Sale</button>
-                    <button className="ListItemButton" onClick={() => this.props.changePage("account")} size="50">Back</button>
-                </div>
+                <div className="ListItemName"><strong><ins>Username</ins> : </strong>{this.props.userInfo}</div>
+                <div><input className="ListItemInfo" type="text" ref={r => this.inputName = r} placeholder="Item Name" required="true" /></div>
+                <div><input className="ListItemInfo" type="number" ref={r => this.inputPrice = r} placeholder="Price" required="true" /></div>
+                <div><input className="ListItemInfo" type="text" ref={r => this.inputDesc = r} placeholder="Description" required="true" /></div>
+                <button className="ListItemButton" onClick={this.validation}>Display It For Sale</button>
+                <button className="ListItemButton" onClick={() => this.props.changePage("account")} size="50">Back</button>
             </div>
         </div>);
     }

@@ -16,7 +16,7 @@ class SignUp extends Component {
     }
     render() {
         console.log("sign-in");
-        return (<div className="AppMain">
+        return (<div className="App">
             <h1>Register</h1>
             <input className="UserLogInput" ref={r => this.inputUser = r} type="text" placeholder="Username" required={true} size="50" />
             <div><input className="UserLogInput" ref={r => this.inputPass = r} type="password" placeholder="Password" required={true} size="50" /></div>

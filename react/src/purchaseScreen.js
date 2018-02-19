@@ -14,7 +14,7 @@ class PurchaseScreen extends Component {
         fetch('/buy', { method: "POST", body: JSON.stringify({ buyerName: this.props.userInfo, sellerName: this.props.itemInfo.sellerName, listingID: this.props.itemInfo.listingID }) })
             .then(x => x.text())
             .then(x => {
-                window.alert("FOOL! You foolishly fooled yourself in a foolish manner into fooling your foolish fool of a fool that you foolishly are to foolishingly purchase this foolish item with your foolishness you foolish fool!");
+                window.alert("Item Purchased Successfully");
                 this.props.changePage("main");
                 this.props.updateList();
             });
@@ -28,32 +28,27 @@ class PurchaseScreen extends Component {
                 <p><strong><ins>Item</ins> : </strong>{this.props.itemInfo.itemName}</p>
                 <p><strong><ins>Price</ins> : </strong>${this.props.itemInfo.price}.00</p>
                 <div><strong><ins>Description</ins> : </strong>{this.props.itemInfo.description}</div>
-                <div>Buy {this.props.itemInfo.itemName} from user {this.props.itemInfo.sellerName} for ${this.props.itemInfo.price}.00 ?</div>
+                <h1>Buy {this.props.itemInfo.itemName} from user {this.props.itemInfo.sellerName} for ${this.props.itemInfo.price}.00 ?</h1>
+                <button onClick={this.clickBuyButton} disabled={this.state.invalidPurchase}>Purchase</button>
+                <button onClick={() => this.props.changePage("main")}>Back</button>
             </div>
-            <button onClick={this.clickBuyButton} disabled={this.state.invalidPurchase}>Purchase</button>
         </div>);
     }
     cannotBuyItem = () => {
         return (<div>
             <h1>Who are you again?</h1>
-            <div>
-                <img src="sinistar.gif" alt="Run Coward" height="200" width="200" />
-                <img src="sinistar.gif" alt="Run Coward" height="200" width="200" />
-                <img src="sinistar.gif" alt="Run Coward" height="200" width="200" />
-                <img src="sinistar.gif" alt="Run Coward" height="200" width="200" />
-                <img src="sinistar.gif" alt="Run Coward" height="200" width="200" />
-            </div>
             <div>You must log-in or register if you wish to make purchases on this site!</div>
-            <button onClick={() => this.props.changePage("log in")}>Log - In</button>
-            <button onClick={() => this.props.changePage("sign up")}>Register</button>
+            <div>
+                <img src="metaknight.png" alt="Meta Knight" height="200" width="200" />
+            </div>
+            <button className="AccountButton" onClick={() => this.props.changePage("main")}>Whoopsies!</button>
         </div>);
     }
     render() {
         console.log("purchase");
-        return (<div className="AppMain">
+        return (<div className="App">
             <div>
                 {this.props.userLogged ? this.canBuyItem() : this.cannotBuyItem()}
-                <button className="AccountButton" onClick={() => this.props.changePage("main")}>Back</button>
             </div>
         </div>);
     }

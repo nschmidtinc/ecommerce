@@ -12,7 +12,7 @@ class YourListings extends Component {
     }
     isDeletable = () => {
         if (this.props.currentList === "Items Listed by ") {
-            return (<button onClick={this.listingDeleted}>Remove It</button>);
+            return (<button className="UserItemButton" onClick={this.listingDeleted}></button>);
         }
     }
     render() {
@@ -20,7 +20,7 @@ class YourListings extends Component {
         return (<div className="UserItemDisplay">
             {this.isDeletable()}
             <div>
-                <div className="SubItemDisplay"><img src="metaknight.png" alt="Run Coward" height="100" width="100" /></div>
+                <div className="SubItemDisplay"><img src="kirby.png" alt="KIRBY" height="100" width="100" /></div>
                 <div><small>
                     <p><strong><ins>Item</ins> : </strong>{this.props.obj[this.props.count].itemName}</p>
                     <p><strong><ins>Price</ins> : </strong>${this.props.obj[this.props.count].price}.00</p>

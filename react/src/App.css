@@ -1,34 +1,23 @@
 body {
-  background-color: grey;
-  background-image: url('/header.jpg');
-  background-size: initial;
-  background-repeat: no-repeat;
-  background-position: left top;
+  background-color: darkgrey;
 }
 
-.SpecialTime {
-  transform-origin: 50% 50%;
-  animation: 2s rotateRight infinite linear;
+input {
+  border-color: black;
+  height: 30px;
 }
 
-@keyframes rotateRight {
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-.AppMain {
-  text-align: center;
-  width: 1000px;
-  margin: auto;
-  margin-top: 175px;
+button {
+  background-color: white;
+  border-color: black;
+  width: 100px;
+  height: 30px;
 }
 
 .App {
   text-align: center;
   width: 1000px;
   margin: auto;
-  margin-top: 100px;
 }
 
 .UserLogInput {
@@ -39,13 +28,37 @@ body {
   width: 152px;
 }
 
+.Header {
+  background-image: url("./images/header.png");
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: left;
+  background-position-x: 100px;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  width: 1000;
+  height: 150px;
+}
+
 .UserAccountButtons {
   text-align: right;
-  margin-top: 65px;
-  margin-right: 130px;
+  position: absolute;
+  right: 130px;
+  padding-top: 55px;
+}
+
+.Button1 {
+  margin-right: 10px;
+  height: 50px;
+}
+
+.Button2 {
+  margin-left: 10px;
+  height: 50px;
 }
 
 .SearchBox {
+  margin-top: 20px;
   width: 500px;
 }
 
@@ -53,7 +66,6 @@ body {
   text-align: left;
   width: 300px;
   float: left;
-  padding-top: 20px;
 }
 
 .AccountList {
@@ -74,7 +86,7 @@ body {
   margin-right: 1.5%;
   text-align: left;
   width: 250px;
-  height: 200px;
+  height: 155px;
   padding: 20px;
   padding-top: 15px;
   padding-bottom: 0px;
@@ -92,15 +104,36 @@ body {
   height: 200px;
 }
 
+.AccountTab {
+  width: 150px;
+}
+
+.ItemButton {
+  background-image: url('./images/buy button.png');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-color: transparent;
+  width: 75px;
+  height: 50px;
+}
+
+.UserItemButton {
+  background-image: url('./images/remove.png');
+  background-repeat: no-repeat;
+  background-color: transparent;
+  border-color: transparent;
+  width: 100px;
+  height: 50px;
+}
+
 .UserItemDisplay {
-  background-image: url('/sub-background-2.jpg');
+  background-image: url('/sub-background.png');
+  background-repeat: no-repeat;
   border: 5px solid black;
-  background-color: white;
-  margin: auto;
-  margin-left: 10px;
+  margin: 10px;
   text-align: left;
-  width: 400px;
-  height: 200px;
+  width: 300px;
+  height: 150px;
   padding: 20px;
 }
 
@@ -110,13 +143,19 @@ body {
 }
 
 .ListNewItem {
-  text-align: left;
-  margin-top: 50px;
-  margin-left: 100px;
+  text-align: center;
 }
 
-.InputDescription {
+.ListItemName {
+  margin-right: 130px;
+}
+
+.ListItemInfo {
   width: 250px;
+}
+
+.ListItemButton {
+  width: 127px;
 }
 
 .AccountButton {
@@ -127,18 +166,6 @@ body {
   margin: 20px;
 }
 
-.ListItemButton {
-  margin-top: 20px;
-  width: 127px;
-}
 .CheckOutPage {
   text-align: left;
-}
-p {
-  padding: 0px;
-  margin: 0 px;
-}
-
-button {
-  width: 100px;
 }
