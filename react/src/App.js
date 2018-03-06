@@ -37,7 +37,10 @@ class App extends Component {
   }
   updateList = () => {
     console.log("updating");
-    fetch('/globalListings').then(x => x.text()).then(x => { console.log(x); this.setState({ allListings: JSON.parse(x), clearButtonDisabled: true }); });
+    fetch('/globalListings').then(x => x.text())
+    .then(x => { console.log(x);
+       this.setState({ allListings: JSON.parse(x),
+         clearButtonDisabled: true }); });
   }
   clickLogOutButton = () => { this.updateList(); return this.setState({ userKnown: false, username: "Guest" }); }
   clickAccountButton = () => { this.updateList(); return this.setState({ currentPage: "account" }); }
